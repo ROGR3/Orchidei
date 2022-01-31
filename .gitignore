@@ -1,0 +1,8 @@
+node_modules/
+scripts/ts
+tsconfig.json
+styles/style.css.map
+.vscode/
+assets/
+dist/
+todo.md

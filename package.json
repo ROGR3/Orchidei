@@ -1,0 +1,37 @@
+{
+  "name": "orchidei",
+  "version": "1.1.0",
+  "description": "Orchidei File Manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "windows",
+    "windows file manager",
+    "file manager"
+  ],
+  "author": "Borecjeborec1",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^13.2.3",
+    "electron-builder": "^22.11.7"
+  },
+  "dependencies": {
+    "async": "^3.2.1",
+    "command-exists": "^1.2.9",
+    "lookpath": "^1.2.2",
+    "mime": "^2.5.2",
+    "ncp": "^2.0.0",
+    "trash": "^7.2.0"
+  },
+  "build": {
+    "appId": "Orchidei",
+    "win": {
+      "target": "nsis",
+      "icon": "./assets/icons/orchidei.png"
+    }
+  }
+}

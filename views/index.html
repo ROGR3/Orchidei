@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" /> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <!--<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet"> -->
+  <script defer src="../scripts/handleLang.js"></script>
+  <script defer src="../scripts/handleErr.js"></script>
+  <script defer src="../scripts/script.js"></script>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <title>Orchidei</title>
+</head>
+
+<body>
+  <div class="border"></div>
+  <div class="clock-loader"></div>
+  <div class="bg"></div>
+  <div class="draggable" id="mydivheader">
+    <div class="draggablePart"></div>
+    <div id="logo"></div>
+    <p id="fmText">File Manager</p>
+    <p id="name">Orchidei</p>
+    <div class="doingIcon" id="minimize"></div>
+    <div class="doingIcon" id="fullScreen"></div>
+    <div class="doingIcon" id="close"></div>
+  </div>
+  <header class="header">
+    <div>
+      <div class="leftIcons">
+        <i class="icon iconLeft" id="titleUp" title="Jump up 1 folder"></i>
+        <i class="icon iconRight" id="titleLast" title="Visit last Step"></i>
+      </div>
+      <div class="sortIcons">
+        <i class="icon atoz" id="titleAlph" title="Sort by Alphabet"></i>
+        <i class="icon size" id="titleSize" title="Sort by Size"></i>
+      </div>
+    </div>
+    <div class="sortByDiv">
+      <p class="sortByHeading" id="sorted">Sorted by: A-Z</p>
+    </div>
+    <div class="inputbar">
+      <input type="text" placeholder="Search Folder..." id="searchInput">
+      <i class="icon glass" id="titleSearch" title="Search"></i>
+    </div>
+    <div class="curPathDiv">
+      <p class="currentPath">C:/Downloads/Downloads/</p>
+      <i class="icon copy" id="titleCopy" title="Copy path to Clipboard"></i>
+    </div>
+  </header>
+  <div class="menus">
+    <div class="sideMenu">
+      <h3 class="subTitle" id="thisPC">
+        This Computer
+      </h3>
+      <span id="searchForFolders">
+        <h3 class="title">
+          Documents
+        </h3>
+        <h3 class="title">
+          Downloads
+        </h3>
+        <h3 class="title">
+          Desktop
+        </h3>
+        <h3 class="title">
+          Music
+        </h3>
+        <h3 class="title">
+          Pictures
+        </h3>
+        <h3 class="title">
+          Videos
+        </h3>
+      </span>
+      <h3 class="subTitle" id="recFiles">
+        Recent Files
+      </h3>
+      <span id="recentFiles">
+
+      </span>
+      <h3 class="subTitle" id="recFolders">
+        Recent Folders
+      </h3>
+      <span id="recentFolders">
+
+      </span>
+
+    </div>
+
+    <div class="foldersMenu">
+    </div>
+
+
+  </div>
+</body>
+
+</html>
