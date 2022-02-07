@@ -1,7 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 // const { app } = require('electron');
 // const { BrowserWindow } = require('electron-acrylic-window');
-const path = require('path');
 let op = {
   theme: 'dark',
 }
@@ -16,7 +15,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      devTools: true,
+      devTools: false,
     },
     icon: 'assets/icons/orchideiMini.png',
     autoHideMenuBar: true,

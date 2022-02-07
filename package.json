@@ -14,7 +14,7 @@
     "file manager"
   ],
   "author": "Borecjeborec1",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^13.2.3",
     "electron-builder": "^22.11.7"
