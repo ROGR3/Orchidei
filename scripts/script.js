@@ -997,7 +997,6 @@ function properties(fileName) {
     img: imgURL,
   };
   function changeEl() {
-    console.log("here")
     el.innerHTML = `
     <div class="smallHead">
     <img src="${fileProps.img}" width="20px"/>  <p> ${fileProps.name} - ${curLang.singles.properties}</p>
@@ -1020,19 +1019,20 @@ function properties(fileName) {
     </div>
   `;
   }
-  changeEl(el, fileProps);
-  globalCanStart = currentPath + '/' + fileName
-  let idInt = setInterval(() => {
-    if (globalSize !== 0) {
-      fileProps.size = globalSize;
-      changeEl(el, fileProps);
-      globalSize = 0;
-      return clearInterval(idInt);
-    }
-    changeEl(el, fileProps);
-    console.log("here")
-    fileProps.size += Math.floor(Math.random() * 100);
-  }, 500);
+  changeEl();
+  if (isRlyFolder == 'folder') {
+    globalCanStart = currentPath + '/' + fileName
+    let idInt = setInterval(() => {
+      if (globalSize !== 0) {
+        fileProps.size = globalSize;
+        changeEl(el, fileProps);
+        globalSize = 0;
+        return clearInterval(idInt);
+      }
+      changeEl();
+      fileProps.size += Math.floor(Math.random() * 100);
+    }, 500);
+  }
   el.placeholder = fileName;
   changeBgOpacity(0.1);
   body.appendChild(el);
@@ -1042,7 +1042,6 @@ function properties(fileName) {
       (e) => {
         changeBgOpacity('');
         el.remove();
-        clearInterval(idInt);
       },
       { once: true }
     );
@@ -1355,7 +1354,6 @@ function closeSettings(isSaved) {
     document.getElementById('safeMode').options[0].value,
     document.getElementById('safeMode').options[1].value,
   ];
-  console.log(edArr);
   if (isSaved == 'saved') {
     let newJSON = {
       lang: langsArr[document.getElementById('languages').selectedIndex],
@@ -1406,7 +1404,6 @@ let globalCanStart = 0;
 async function startSize(p) {
   await console.log()
   globalSize = fastFolderSizeSync(p)
-  console.log(globalSize)
   globalCanStart = false
 }
 setInterval(() => {
