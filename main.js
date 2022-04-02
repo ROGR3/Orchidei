@@ -15,7 +15,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-      devTools: false,
+      // devTools: false,
     },
     icon: 'assets/icons/orchideiMini.png',
     autoHideMenuBar: true,

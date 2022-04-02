@@ -3,11 +3,10 @@ const { exec } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
 const trashCommand = require('trash');
-const commandExists = require('command-exists').sync;
+const fastFolderSizeSync = require('fast-folder-size/sync')
 const fs = require('fs');
 
 let { max_ls_length, start_path, safe_mode } = require('../setting.json');
-const { emitKeypressEvents } = require('readline');
 
 const SPACE_SYMBOL = 'ssppcc';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
@@ -25,7 +24,6 @@ const goFrontIcon = document.querySelector('.iconRight');
 const copyIcon = document.querySelector('.copy');
 const searchIcon = document.querySelector('.glass');
 const searchInput = document.querySelector('#searchInput');
-const clockLoader = document.querySelector('.clock-loader');
 
 let currentPath = start_path;
 let lastPath = currentPath;
@@ -956,7 +954,7 @@ function renameFile(fileName) {
     );
   }, 500);
 }
-async function properties(fileName) {
+function properties(fileName) {
   let el = document.createElement('div');
   el.classList.add('propertiesBox');
   const mime = require('mime');
@@ -989,7 +987,7 @@ async function properties(fileName) {
   let isRlyFolder = mimeType == null && fsStats.size == 0 ? 'folder' : 'Unknown';
   let fpName = fileName ? fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName : currentPath.split("/").pop();
   const fileProps = {
-    size: testSize,
+    size: testSize | Math.floor(Math.random() * 100),
     createdAt: fsStats.birthtime.toLocaleString(),
     modifiedAt: fsStats.mtime.toLocaleString(),
     openedAt: fsStats.atime.toLocaleString(),
@@ -998,7 +996,9 @@ async function properties(fileName) {
     name: fpName,
     img: imgURL,
   };
-  el.innerHTML = `
+  function changeEl() {
+    console.log("here")
+    el.innerHTML = `
     <div class="smallHead">
     <img src="${fileProps.img}" width="20px"/>  <p> ${fileProps.name} - ${curLang.singles.properties}</p>
     </div>
@@ -1019,6 +1019,20 @@ async function properties(fileName) {
       <div class="lineB"></div>
     </div>
   `;
+  }
+  changeEl(el, fileProps);
+  globalCanStart = currentPath + '/' + fileName
+  let idInt = setInterval(() => {
+    if (globalSize !== 0) {
+      fileProps.size = globalSize;
+      changeEl(el, fileProps);
+      globalSize = 0;
+      return clearInterval(idInt);
+    }
+    changeEl(el, fileProps);
+    console.log("here")
+    fileProps.size += Math.floor(Math.random() * 100);
+  }, 500);
   el.placeholder = fileName;
   changeBgOpacity(0.1);
   body.appendChild(el);
@@ -1028,6 +1042,7 @@ async function properties(fileName) {
       (e) => {
         changeBgOpacity('');
         el.remove();
+        clearInterval(idInt);
       },
       { once: true }
     );
@@ -1385,3 +1400,17 @@ function closeSettings(isSaved) {
   deleteBg('');
   document.querySelector('.propertiesBox').remove();
 }
+
+let globalSize = 0;
+let globalCanStart = 0;
+async function startSize(p) {
+  await console.log()
+  globalSize = fastFolderSizeSync(p)
+  console.log(globalSize)
+  globalCanStart = false
+}
+setInterval(() => {
+  if (globalCanStart) {
+    startSize(globalCanStart)
+  }
+}, 1000)
