@@ -1,6 +1,6 @@
 {
   "name": "orchidei",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Orchidei File Manager",
   "main": "main.js",
   "scripts": {
