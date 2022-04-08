@@ -1,5 +1,5 @@
 const { remote, ipcRenderer, shell } = require('electron');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
 const trashCommand = require('trash');
@@ -8,6 +8,8 @@ const fs = require('fs');
 
 let { max_ls_length, start_path, safe_mode } = require('../setting.json');
 
+const SPAWN_FILE = __dirname + '/../temp/spawn.js'
+const TEMP_FOLDER_FILE = __dirname + '/../temp/folder.txt'
 const SPACE_SYMBOL = 'ssppcc';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
 const currentPathDiv = document.querySelector('.currentPath');
@@ -972,13 +974,6 @@ function properties(fileName) {
   } else {
     fileOrFolder = false;
     testSize = 0;
-    // try {
-    //   testSize = getTotalSize(currentPath + '/' + fileName);
-    // } catch (err) {
-    //   handleErr(err);
-    //   testSize = '0';
-    // }
-
   }
   let imgURL =
     fileOrFolder == 'url(../assets/folders/lockedFolder.png)'
@@ -1020,22 +1015,25 @@ function properties(fileName) {
   `;
   }
   changeEl();
-  if (isRlyFolder == 'folder') {
-    globalCanStart = currentPath + '/' + fileName
-    let idInt = setInterval(() => {
-      if (globalSize !== 0) {
-        fileProps.size = globalSize;
-        changeEl(el, fileProps);
-        globalSize = 0;
-        return clearInterval(idInt);
-      }
-      changeEl();
-      fileProps.size += Math.floor(Math.random() * 100);
-    }, 500);
-  }
   el.placeholder = fileName;
   changeBgOpacity(0.1);
   body.appendChild(el);
+  if (isRlyFolder == 'folder') {
+    console.log("before spawn")
+    spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { windowsHide: false, detached: false, shell: true })
+    console.log("after")
+    let idInt = setInterval(() => {
+      let fileRead = fs.readFileSync(TEMP_FOLDER_FILE, "utf-8")
+      if (fileRead) {
+        fileProps.size = fileRead;
+        changeEl();
+        fs.writeFileSync(TEMP_FOLDER_FILE, "")
+        return clearInterval(idInt);
+      }
+      changeEl();
+      fileProps.size += Math.floor(Math.random() * 1000 + 1000);
+    }, 500);
+  }
   setTimeout(() => {
     document.addEventListener(
       'click',
@@ -1264,7 +1262,7 @@ function convertBytes(bytes) {
     return bytes + ' ' + sizes[i];
   }
 
-  return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  return (bytes / Math.pow(1000, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 
@@ -1399,15 +1397,5 @@ function closeSettings(isSaved) {
   document.querySelector('.propertiesBox').remove();
 }
 
-let globalSize = 0;
-let globalCanStart = 0;
-async function startSize(p) {
-  await console.log()
-  globalSize = fastFolderSizeSync(p)
-  globalCanStart = false
-}
-setInterval(() => {
-  if (globalCanStart) {
-    startSize(globalCanStart)
-  }
-}, 1000)
+
+
