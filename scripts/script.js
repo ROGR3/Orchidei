@@ -981,7 +981,7 @@ function properties(fileName) {
   let isRlyFolder = mimeType == null && fsStats.size == 0 ? 'folder' : 'Unknown';
   let fpName = fileName ? fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName : currentPath.split("/").pop();
   const fileProps = {
-    size: testSize | Math.floor(Math.random() * 100),
+    size: testSize | Math.floor(Math.random() * 1_000_000 + 100_000),
     createdAt: fsStats.birthtime.toLocaleString(),
     modifiedAt: fsStats.mtime.toLocaleString(),
     openedAt: fsStats.atime.toLocaleString(),
