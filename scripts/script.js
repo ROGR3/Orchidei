@@ -9,7 +9,7 @@ let { max_ls_length, start_path, safe_mode } = require('../setting.json');
 
 const SPAWN_FILE = __dirname + '/../temp/spawn.js'
 const TEMP_FOLDER_FILE = __dirname + '/../temp/folder.txt'
-const SPACE_SYMBOL = 'ssppcc';
+const SPACE_SYMBOL = 'idkssppccidk';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
 const currentPathDiv = document.querySelector('.currentPath');
 const body = document.querySelector('body');
@@ -46,15 +46,24 @@ let soloNode = '';
 let copiedFile = '';
 let copiedFileName = '';
 function addToLast(fileString, isFolder) {
+  console.log(lastFoldersArr, lastFilesArr, lastFoldersArr.includes({ currentPath: currentPath, name: fileString }), lastFilesArr.includes({ currentPath: currentPath + '/' + fileString, name: fileString }));
+  if (isInList(fileString, isFolder ? lastFoldersArr : lastFilesArr)) return
   if (isFolder) {
-    lastFoldersArr.unshift({ name: fileString, currentPath: currentPath });
+    lastFoldersArr.unshift({ currentPath: currentPath, name: fileString });
     lastFoldersArr.length = max_ls_length;
   } else {
-    lastFilesArr.unshift({ name: fileString, currentPath: currentPath + '/' + fileString });
+    lastFilesArr.unshift({ currentPath: currentPath + '/' + fileString, name: fileString });
     lastFilesArr.length = max_ls_length;
   }
   localStorage.setItem('lastShow', JSON.stringify({ lastFolders: lastFoldersArr, lastFiles: lastFilesArr }));
 }
+function isInList(str, arr) {
+  for (let i = 0; i < arr.length; i++)
+    if (arr[i].name === str)
+      return true
+  return false
+}
+
 function sortByAplh(currentFiles) {
   currentFiles.forEach((el) => (el = el.toLowerCase()));
   if (isSortedByAlph) {
@@ -451,11 +460,6 @@ function filterSearch() {
     return el.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
   createUI(currentFiles);
-  // if (currentFiles[0] && document.querySelector('.' + currentFiles[0].replace(/ /g, SPACE_SYMBOL))) {
-  //   document.querySelector('.' + currentFiles[0].replace(/ /g, SPACE_SYMBOL)).classList.add('selected');
-  //   lastSelectedEl.push(document.querySelector('.' + currentFiles[0].replace(/ /g, SPACE_SYMBOL)));
-  //   searchInput.value = '';
-  // }
 }
 function initLeftHTMLBar() {
   searchForFoldersSpan.innerHTML = '';
