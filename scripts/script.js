@@ -3,7 +3,6 @@ const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
 const trashCommand = require('trash');
-const fastFolderSizeSync = require('fast-folder-size/sync')
 const fs = require('fs');
 
 let { max_ls_length, start_path, safe_mode } = require('../setting.json');
@@ -1019,8 +1018,11 @@ function properties(fileName) {
   changeBgOpacity(0.1);
   body.appendChild(el);
   if (isRlyFolder == 'folder') {
+    fs.writeFileSync(TEMP_FOLDER_FILE, "")
     console.log("before spawn")
-    spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { windowsHide: false, detached: false, shell: true })
+    setTimeout(() => {
+      spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { windowsHide: false, detached: false, shell: true })
+    }, 100)
     console.log("after")
     let idInt = setInterval(() => {
       let fileRead = fs.readFileSync(TEMP_FOLDER_FILE, "utf-8")
@@ -1031,7 +1033,7 @@ function properties(fileName) {
         return clearInterval(idInt);
       }
       changeEl();
-      fileProps.size += Math.floor(Math.random() * 1000 + 1000);
+      fileProps.size += Math.floor(Math.random() * 300_000_000 + 10_000_000);
     }, 500);
   }
   setTimeout(() => {
