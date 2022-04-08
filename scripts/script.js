@@ -46,7 +46,6 @@ let soloNode = '';
 let copiedFile = '';
 let copiedFileName = '';
 function addToLast(fileString, isFolder) {
-  console.log(lastFoldersArr, lastFilesArr, lastFoldersArr.includes({ currentPath: currentPath, name: fileString }), lastFilesArr.includes({ currentPath: currentPath + '/' + fileString, name: fileString }));
   if (isInList(fileString, isFolder ? lastFoldersArr : lastFilesArr)) return
   if (isFolder) {
     lastFoldersArr.unshift({ currentPath: currentPath, name: fileString });
