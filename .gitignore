@@ -3,7 +3,7 @@ scripts/ts
 tsconfig.json
 styles/style.css.map
 .vscode/
-assets/
+*.png
 dist/
 todo.md
 test/
