@@ -1,6 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-// const { app } = require('electron');
-// const { BrowserWindow } = require('electron-acrylic-window');
 let op = {
   theme: 'dark',
 }
