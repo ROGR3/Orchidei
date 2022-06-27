@@ -17,7 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "ejs": "^3.1.8",
-    "electron": "^13.2.3",
+    "electron": "^13.6.9",
     "electron-builder": "^22.11.7"
   },
   "dependencies": {
