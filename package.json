@@ -18,13 +18,13 @@
   "devDependencies": {
     "ejs": "^3.1.8",
     "electron": "^19.0.6",
-    "electron-builder": "^22.11.7"
+    "electron-builder": "^22.11.7",
+    "got": "^12.1.0"
   },
   "dependencies": {
     "async": "^3.2.1",
     "command-exists": "^1.2.9",
     "fast-folder-size": "^1.6.1",
-    "got": "^12.1.0",
     "lookpath": "^1.2.2",
     "mime": "^2.5.2",
     "ncp": "^2.0.0",

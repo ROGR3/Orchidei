@@ -4,4 +4,4 @@
 
 #### DEMO
 
-<img src="./assets/Animation.gif" width="600"/>
+<img src="./preview.png" width="600"/>
