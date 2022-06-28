@@ -1,7 +1,7 @@
 # Orchidei
 
-### Windows file manager
-
-#### DEMO
+### Modern file manager
 
 ![Orchidei Preview](./preview.png)
+
+###### Orchidei is not deployed yet!
