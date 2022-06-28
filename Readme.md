@@ -4,4 +4,4 @@
 
 #### DEMO
 
-<img src="./preview.png" width="600"/>
+![Orchidei Preview](./preview.png)
