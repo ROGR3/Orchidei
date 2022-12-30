@@ -1,4 +1,6 @@
-const { remote, ipcRenderer, shell } = require('electron');
+const { ipcRenderer, shell } = require('electron');
+const remote = require('@electron/remote')
+const dialog = remote.dialog
 const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
@@ -822,7 +824,7 @@ function handleRightClick(x, y, test) {
 
   soloNode.classList.add('selected');
 
-  let choiceArr = ['Open', 'Copy Path', 'Copy', 'Paste', 'Delete', 'Rename', 'Properties'];
+  let choiceArr = ['Open', 'Copy Path', 'Copy', 'Paste', 'Delete', 'Rename', 'Properties', "Share"];
   if (elementClicked == 'menus') {
     choiceArr = ['Copy Path', 'New File', 'Properties'];
   }
@@ -905,7 +907,112 @@ async function handleSingleLiClick(command, clickedEl) {
     case 'new file':
       createFile(clickedEl);
       break;
+    case "share":
+      shareFile(clickedEl)
   }
+}
+
+function shareFile(fileName) {
+  let el = document.createElement('div');
+  el.classList.add('propertiesBox');
+  const mime = require('mime');
+  fileName = fileName.includes("menus") ? "" : fileName;
+  let mimeType = mime.getType(currentPath + '/' + fileName);
+  let fsStats = fs.statSync(currentPath + '/' + fileName);
+  let fileOrFolder = 'file';
+  let testSize = 'N/A';
+  if (isFile(fileName) == 'file') {
+    fileOrFolder = true;
+    testSize = fsStats.size;
+  } else if (isFile(fileName) == 'locked-folder') {
+    fileOrFolder = 'url(../assets/folders/lockedFolder.png)';
+  } else {
+    fileOrFolder = false;
+    testSize = 0;
+  }
+  let imgURL =
+    fileOrFolder == 'url(../assets/folders/lockedFolder.png)'
+      ? '../assets/folders/lockedFolder.png'
+      : initImage(fileName, fileOrFolder).replace('url(', '').replace(')', '');
+  let isRlyFolder = mimeType == null && fsStats.size == 0 ? 'folder' : 'Unknown';
+  let fpName = fileName ? fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName : currentPath.split("/").pop();
+  const fileProps = {
+    size: testSize | Math.floor(Math.random() * 1_000_000 + 100_000),
+    createdAt: fsStats.birthtime.toLocaleString(),
+    modifiedAt: fsStats.mtime.toLocaleString(),
+    openedAt: fsStats.atime.toLocaleString(),
+    location: currentPath,
+    fileType: mimeType || isRlyFolder,
+    name: fpName,
+    img: imgURL,
+  };
+  function changeEl() {
+    el.innerHTML = `
+    <div class="smallHead">
+    <img src="${fileProps.img}" width="20px"/>  <p> ${fileProps.name} - Share file</p>
+    </div>
+    <div class="smallBody">
+      <div class="row">
+        <img src="${fileProps.img}" width="50px"/>
+        <h3>${fileProps.name}</h3>
+      </div>
+      <div class="lineB"></div>
+      <p>${curLang.singles.fileType} ${fileProps.fileType}</p>
+      <div class="lineB"></div>
+     <p>${curLang.singles.location} ${fileProps.location}</p>
+     <p>${curLang.singles.size}: ${convertBytes(fileProps.size)}</p>
+      <div class="lineB"></div>
+      <input type="file" id="filesInput" >
+      <button id="shareBtn" onclick=startSharing()>Share</button>
+      <div class="lineB"></div>
+    </div>
+  `;
+  }
+  // onclick=startFileSelect("${fileProps.location + "/" + fileName}")
+  changeEl();
+  el.placeholder = fileName;
+  changeBgOpacity(0.1);
+  body.appendChild(el);
+  // setTimeout(() => {
+  //   document.addEventListener(
+  //     'click',
+  //     (e) => {
+  //       changeBgOpacity('');
+  //       el.remove();
+  //     },
+  //     { once: true }
+  //   );
+  // }, 500);
+}
+
+
+// function startFileSelect(_fileName) {
+//   console.log("Hello from startfileselect")
+//   dialog.showOpenDialog({
+//     properties: ['openFile', "showHiddenFiles"],
+//     defaultPath: "C://"
+//   }, function (files) {
+//     if (files !== undefined) {
+//       console.log(files)
+//       // handle files
+//     }
+//   })
+// }
+
+async function startSharing() {
+
+  const file = document.getElementById("filesInput").files
+  const formData = new FormData()
+  console.log(file[0])
+  formData.append(file[0].name, file[0])
+  console.log(formData)
+
+  const response = await fetch("http://localhost:3000/upload-file", {
+    method: "POST",
+    body: formData
+  })
+  const resJSON = response.json()
+  console.log(resJSON)
 }
 
 function copyFile(fileName) {
@@ -965,7 +1072,6 @@ function properties(fileName) {
   fileName = fileName.includes("menus") ? "" : fileName;
   let mimeType = mime.getType(currentPath + '/' + fileName);
   let fsStats = fs.statSync(currentPath + '/' + fileName);
-  let amountOfFiles = 0;
   let fileOrFolder = 'file';
   let testSize = 'N/A';
   if (isFile(fileName) == 'file') {

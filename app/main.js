@@ -19,6 +19,8 @@ function createWindow() {
     autoHideMenuBar: true,
   });
   mainWindow.loadFile('./views/index.html');
+  require('@electron/remote/main').initialize()
+  require("@electron/remote/main").enable(mainWindow.webContents);
 }
 
 app.whenReady().then(() => {
