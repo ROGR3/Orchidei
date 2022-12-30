@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
+const fs = require("fs")
 
 const app = express();
 
@@ -23,21 +24,25 @@ app.post('/upload-file', fileUpload({ createParentPath: true }), async (req, res
     } else {
       let uploadedFiles = req.files;
       let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
-      console.log(uploadedFile)
-      // //Use the mv() method to place the file in the upload directory (i.e. "uploads")
-      uploadedFile.mv(__dirname + '/uploads/' + uploadedFile.name, (err) => {
-        console.log("error: " + err)
+      let hashedFile = generateHash(uploadedFile)
+      let fileObject = readDB("./uploads/db.json")
+      fileObject[hashedFile] = {
+        name: uploadedFile.name,
+        size: uploadedFile.size,
+        type: uploadedFile.mimetype
+      }
+      console.log(fileObject)
+
+      uploadedFile.mv(__dirname + '/uploads/' + hashedFile, (err) => {
+        if (err)
+          console.log("error: " + err)
       });
 
-      // //send response
+      writeDB("./uploads/db.json", fileObject)
+
       res.send({
         status: true,
         message: 'File is uploaded',
-        data: {
-          name: uploadedFile.name,
-          mimetype: uploadedFile.mimetype,
-          size: uploadedFile.size
-        }
       });
     }
   } catch (err) {
@@ -51,7 +56,8 @@ app.get("/download/*", async (req, res) => {
     let fileName = req.url.replace("/download/", "")
     console.log(fileName)
     res.download(__dirname + "/uploads/" + fileName, (err) => {
-      console.log(err)
+      if (err)
+        console.log("error: " + err)
     })
   }
   catch (err) {
@@ -62,3 +68,22 @@ app.get("/download/*", async (req, res) => {
 app.listen(PORT, () =>
   console.log(`App is listening on port ${PORT}.`)
 );
+
+
+function generateHash(file) {
+  let time = new Date().getTime()
+  let id = time + "" + file.size
+  const SYMBOLS = "abcdefghijklmnopqrstuwvxyz"
+  let hash = ""
+  for (let i in id) {
+    hash += SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)] + id[i]
+  }
+  return hash
+}
+
+function readDB(_path) {
+  return JSON.parse(fs.readFileSync(_path, "utf-8"))
+}
+function writeDB(_path, content) {
+  return fs.writeFileSync(_path, JSON.stringify(content))
+}
