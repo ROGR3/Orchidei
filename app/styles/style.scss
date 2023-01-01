@@ -523,6 +523,26 @@ body {
   }
 }
 
+input[type="file"] {
+  opacity: 0;
+  display: none;
+}
+
+#uploadLable {
+  width: 80%;
+}
+
+#shareBtn {
+  font-size: 16px;
+  width: 25%;
+  background-color: rgb(179 241 198);
+  color: black;
+  padding: 10px 15px;
+  border-radius: 1rem;
+  display: none;
+}
+
+
 .selected {
   background-color: rgba(49, 49, 49, 0.534);
 }

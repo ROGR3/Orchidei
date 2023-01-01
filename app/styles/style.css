@@ -1,8 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .bg {
@@ -17,9 +16,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: .2;
+  opacity: 0.2;
   border: 4px solid black;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
 }
 
 .border {
@@ -27,7 +26,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   background-color: #1c1a27;
 }
 
@@ -41,11 +40,10 @@ html {
 }
 
 body {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
 }
 
 .draggable {
-  -webkit-transition: linear all 0.2s;
   transition: linear all 0.2s;
   position: fixed;
   width: 100%;
@@ -53,10 +51,9 @@ body {
   z-index: 2;
   padding: 5px;
   background-color: #16151e;
-  border-top-left-radius: .2rem;
-  border-top-right-radius: .2rem;
+  border-top-left-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
 }
-
 .draggable .draggablePart {
   position: fixed;
   -webkit-app-region: drag;
@@ -65,7 +62,6 @@ body {
   right: 63px;
   top: 0;
 }
-
 .draggable #logo {
   width: 25px;
   height: 20px;
@@ -75,12 +71,10 @@ body {
   background-position: center;
   position: absolute;
 }
-
 .draggable p {
   display: inline;
   position: absolute;
 }
-
 .draggable .doingIcon {
   width: 13px;
   height: 13px;
@@ -89,48 +83,37 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   cursor: pointer;
   top: 9px;
 }
-
 .draggable #fmText {
   left: 40px;
 }
-
 .draggable #name {
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
 }
-
 .draggable #minimize {
   right: 50px;
   background-image: url("../assets/minimize.png");
 }
-
 .draggable #minimize:hover {
   background-image: url("../assets/minimizehover.png");
 }
-
 .draggable #fullScreen {
   right: 30px;
   background-image: url("../assets/maximize.png");
 }
-
 .draggable #fullScreen:hover {
   background-image: url("../assets/maximizehover.png");
 }
-
 .draggable #close {
   right: 10px;
   background-image: url("../assets/close.png");
 }
-
 .draggable #close:hover {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
   background-image: url("../assets/closehover.png");
 }
 
@@ -138,71 +121,49 @@ body {
   margin-top: 30px;
   width: 99vw;
   height: 50px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 5px 0px 7px 20px;
   border-top: 0;
   border-bottom: 0;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   z-index: 2;
-  background-color: #1c1a27;
+  background-color: rgb(28, 26, 39);
 }
-
 .header p {
   opacity: 0.6;
 }
-
 .header .leftIcons {
   width: 100px;
   margin-right: 10px;
 }
-
 .header .sortIcons {
   width: 100px;
 }
-
 .header .sortByDiv {
   width: 200px;
   margin-left: 15px;
 }
-
 .header .inputbar {
   width: 85%;
 }
-
 .header .curPathDiv {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
   width: 30%;
   margin-right: 10px;
 }
-
 .header div {
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
 }
-
 .header div .icon {
   width: 30px;
   height: 20px;
@@ -212,36 +173,28 @@ body {
   cursor: pointer;
   padding: 5px 0;
 }
-
 .header div .iconLeft {
   background-image: url("../assets/icons/arrowRight.png");
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
 }
-
 .header div .iconRight {
   background-image: url("../assets/icons/arrowRight.png");
 }
-
 .header div .atoz {
   background-image: url("../assets/icons/azsortdown.png");
 }
-
 .header div .size {
   background-image: url("../assets/icons/sizesortdown1.png");
 }
-
 .header div .glass {
   background-image: url("../assets/icons/searchGlass.png");
   position: relative;
   left: -50px;
 }
-
 .header div .copy {
   background-image: url("../assets/icons/copy.png");
   margin: 5px;
 }
-
 .header div input {
   width: 90%;
   padding: 7px 15px;
@@ -251,30 +204,24 @@ body {
   color: white;
   border: 0;
 }
-
 .header div input:focus {
   outline: none;
 }
 
 .menus {
-  -webkit-transition: linear all 0.2s;
   transition: linear all 0.2s;
   width: 100%;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 .menus .currentPath {
   position: absolute;
   margin-top: 10px;
   left: 180px;
   opacity: 0.7;
-  font-family: '';
+  font-family: "";
   font-size: 60%;
 }
-
 .menus .sideMenu {
   position: fixed;
   width: -webkit-fit-content;
@@ -285,13 +232,11 @@ body {
   padding: 0 40px 20px 20px;
   font-size: 150%;
 }
-
 .menus .sideMenu .subTitle {
   margin: 20px 0 3px;
   font-size: large;
   opacity: 0.4;
 }
-
 .menus .sideMenu .title {
   opacity: 0.9;
   cursor: pointer;
@@ -299,34 +244,25 @@ body {
   font-size: large;
   text-transform: capitalize;
   border-radius: 10px;
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
-
 .menus .sideMenu .title:hover {
   background-color: rgba(49, 49, 49, 0.534);
 }
-
 .menus .foldersMenu {
   height: 100%;
   width: 100%;
   margin: 80px 30px 0 180px;
   border-radius: 10px;
   padding-bottom: 50px;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (minmax(150px, 1fr))[auto-fill];
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   font-weight: 600;
 }
-
 .menus .foldersMenu .solo {
   text-align: center;
-  -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   display: inline-block;
   padding: 5px;
   margin: 7px;
@@ -336,23 +272,19 @@ body {
   cursor: pointer;
   overflow: hidden;
 }
-
 .menus .foldersMenu .solo:hover {
   background-color: rgba(49, 49, 49, 0.534);
 }
-
 .menus .foldersMenu .solo .soloImg {
   width: 70px;
   height: 70px;
   position: relative;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
 }
-
 .menus .foldersMenu .solo p {
   opacity: 0.9;
   overflow: hidden;
@@ -372,10 +304,8 @@ body {
   padding: 20px;
   background-color: rgba(68, 65, 71, 0.589);
   border-radius: 10px;
-  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
-
 .popUpBox span {
   opacity: 0.4;
 }
@@ -390,80 +320,65 @@ body {
   position: fixed;
   z-index: 2;
   padding: 7px 10px;
-  background-color: #444147;
+  background-color: rgb(68, 65, 71);
   border-radius: 5px;
   border: 1px solid white;
 }
-
 .rightClickBox .soloul {
   list-style-type: none;
 }
-
 .rightClickBox .soloul .sololi {
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
   text-align: center;
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
 }
-
 .rightClickBox .soloul .sololi:hover {
   background-color: rgba(56, 46, 65, 0.712);
 }
 
 @-webkit-keyframes fadeIn {
   from {
-    -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
     opacity: 0;
   }
   to {
     opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes fadeIn {
   from {
-    -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
     opacity: 0;
   }
   to {
     opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
-
 @-webkit-keyframes fadeOut {
   from {
     opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   to {
     opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
   }
 }
-
 @keyframes fadeOut {
   from {
     opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   to {
     opacity: 0;
-    -webkit-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
   }
 }
-
 .fadeIn {
   -webkit-animation-name: fadeIn;
           animation-name: fadeIn;
@@ -490,8 +405,7 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   padding: 7px 15px;
   border-radius: 20px;
   font-size: large;
@@ -500,7 +414,6 @@ body {
   border: 0;
   text-align: center;
 }
-
 .newInp:focus {
   outline: none;
 }
@@ -509,8 +422,7 @@ body {
   position: fixed;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   max-width: 500px;
   width: 40%;
   min-width: 400px;
@@ -519,51 +431,41 @@ body {
   min-height: 550px;
   border: 1px solid black;
   border-radius: 20px;
-  background-color: #282841;
+  background-color: rgb(40, 40, 65);
   padding: 20px;
   text-align: center;
   overflow: hidden;
 }
-
 .propertiesBox .smallHead {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   position: absolute;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   max-width: 90%;
 }
-
 .propertiesBox .smallHead p {
   margin-left: 15px;
   overflow: hidden;
 }
-
 .propertiesBox .sae {
   font-size: large;
   cursor: pointer;
   color: #eaeab5;
   bottom: 50px;
 }
-
 .propertiesBox .smallBody {
   font-size: large;
   line-height: 1.6;
 }
-
 .propertiesBox .smallBody h3 {
   font-size: x-large;
 }
-
 .propertiesBox .smallBody .row {
   margin: 70px 0 20px;
 }
-
 .propertiesBox .smallBody .lineB {
   width: 80%;
   height: 2px;
@@ -571,10 +473,8 @@ body {
   margin: 20px 0;
   position: relative;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
 }
-
 .propertiesBox .smallBody input {
   color: rgba(250, 247, 225, 0.808);
   font-size: large;
@@ -584,15 +484,12 @@ body {
   position: relative;
   top: 0.5px;
 }
-
 .propertiesBox .smallBody input:focus {
   outline: none;
 }
-
 .propertiesBox .smallBody .rItemsInp {
   width: 45px;
 }
-
 .propertiesBox .smallBody select {
   background-color: transparent;
   border: 0;
@@ -601,15 +498,32 @@ body {
   position: relative;
   top: 0.5px;
 }
-
 .propertiesBox .smallBody select option {
   background-color: #282841;
   border: 0;
   cursor: pointer;
 }
-
 .propertiesBox .smallBody select:focus {
   outline: none;
+}
+
+input[type=file] {
+  opacity: 0;
+  display: none;
+}
+
+#uploadLable {
+  width: 80%;
+}
+
+#shareBtn {
+  font-size: 16px;
+  width: 25%;
+  background-color: rgb(179, 241, 198);
+  color: black;
+  padding: 10px 15px;
+  border-radius: 1rem;
+  display: none;
 }
 
 .selected {
@@ -626,41 +540,32 @@ body {
   position: fixed;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   display: none;
   z-index: 3;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
   width: var(--clock-width);
   height: var(--clock-width);
   border: 3px solid var(--clock-color);
   border-radius: 50%;
 }
-
 .clock-loader::before, .clock-loader::after {
   position: absolute;
-  content: '';
+  content: "";
   top: calc(var(--clock-radius) * 0.25);
   width: var(--clock-thickness);
   background: var(--clock-color);
   border-radius: 10px;
-  -webkit-transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
-          transform-origin: center calc(100% - calc(var(--clock-thickness) / 2));
+  transform-origin: center calc(100% - var(--clock-thickness) / 2);
   -webkit-animation: spin infinite linear;
           animation: spin infinite linear;
 }
-
 .clock-loader::before {
   height: var(--clock-minute-length);
   -webkit-animation-duration: 2s;
           animation-duration: 2s;
 }
-
 .clock-loader::after {
   top: calc(var(--clock-radius) * 0.25 + var(--clock-hour-length));
   height: var(--clock-hour-length);
@@ -685,36 +590,28 @@ body {
     background-position: 100% 0;
   }
 }
-
 @-webkit-keyframes spin {
   to {
-    -webkit-transform: rotate(1turn);
-            transform: rotate(1turn);
+    transform: rotate(1turn);
   }
 }
-
 @keyframes spin {
   to {
-    -webkit-transform: rotate(1turn);
-            transform: rotate(1turn);
+    transform: rotate(1turn);
   }
 }
-
 @media only screen and (max-width: 661px) {
   .glass {
     display: none;
   }
 }
-
 @media only screen and (max-width: 550px) {
   #fmText {
     display: none;
   }
 }
-
 @media only screen and (max-width: 400px) {
   .currentPath {
     display: none;
   }
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

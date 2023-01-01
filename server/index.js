@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/upload-file', fileUpload({ createParentPath: true }), async (req, res) => {
   console.log("here")
+  console.log(req.files)
   try {
     if (!req.files) {
       console.log("failed")

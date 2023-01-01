@@ -957,19 +957,32 @@ function shareFile(fileName) {
         <h3>${fileProps.name}</h3>
       </div>
       <div class="lineB"></div>
-      <p>${curLang.singles.fileType} ${fileProps.fileType}</p>
+      <p>${curLang.singles.location} ${fileProps.location}</p>
+      <p>${curLang.singles.size}: ${convertBytes(fileProps.size)}</p>
       <div class="lineB"></div>
-     <p>${curLang.singles.location} ${fileProps.location}</p>
-     <p>${curLang.singles.size}: ${convertBytes(fileProps.size)}</p>
+      <p>
+      Delete after 
+        <select name="safeMode" id="safeMode">
+          <option value="oneDay">1 Day</option>
+          <option value="sevDay">7 Days</option>
+          <option value="oneDown">1 Download</option>
+          <option value="fiveDown">5 Download</option>
+        </select>
+        days
+      </p>
       <div class="lineB"></div>
-      <input type="file" id="filesInput" >
+        <section id="uploadImage">
+          <input type="file" id="filesInput" onchange=handleFileUI() >
+          <label for="filesInput" id="uploadLable">Click here to select File</label>               
+        </section>
+      <div class="lineB"></div>
       <button id="shareBtn" onclick=startSharing()>Share</button>
-      <div class="lineB"></div>
     </div>
   `;
   }
-  // onclick=startFileSelect("${fileProps.location + "/" + fileName}")
   changeEl();
+
+  // onclick=startFileSelect("${fileProps.location + "/" + fileName}")
   el.placeholder = fileName;
   changeBgOpacity(0.1);
   body.appendChild(el);
@@ -984,7 +997,10 @@ function shareFile(fileName) {
   //   );
   // }, 500);
 }
-
+function handleFileUI() {
+  document.getElementById('uploadLable').innerHTML = document.getElementById('filesInput').value;
+  document.getElementById('shareBtn').style.display = "inline-block";
+}
 
 // function startFileSelect(_fileName) {
 //   console.log("Hello from startfileselect")
@@ -1436,8 +1452,8 @@ async function createSetting() {
           ${langsOpts}
         </select>
       </p>
-      <div class="lineB"></div>
-        <p>${curLang.singles.sPath} <input class="startInp" id="startPathInp" type="text" value="${start_path}"></input></p>
+        <div class="lineB"></div>
+          <p>${curLang.singles.sPath} <input class="startInp" id="startPathInp" type="text" value="${start_path}"></input></p>
         <p>${curLang.singles.nori} <input class="rItemsInp" id="noriInp" type="number" value=${max_ls_length}  min=0 max=10></input></p>
       <div class="lineB"></div>
       <p>
