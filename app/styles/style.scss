@@ -530,6 +530,8 @@ input[type="file"] {
 
 #uploadLable {
   width: 80%;
+  user-select: none;
+  overflow-wrap: break-word;
 }
 
 #shareBtn {
@@ -542,6 +544,28 @@ input[type="file"] {
   display: none;
 }
 
+#hashInput {
+  width: 100%;
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+#afterShare {
+  display: none;
+}
+
+#copyHash {
+  width: 30px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+  padding: 5px 0;
+  background-image: url('../assets/icons/copy.png');
+  margin: auto;
+}
 
 .selected {
   background-color: rgba(49, 49, 49, 0.534);

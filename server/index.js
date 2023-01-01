@@ -44,6 +44,7 @@ app.post('/upload-file', fileUpload({ createParentPath: true }), async (req, res
       res.send({
         status: true,
         message: 'File is uploaded',
+        hash: hashedFile
       });
     }
   } catch (err) {
@@ -59,6 +60,21 @@ app.get("/download/*", async (req, res) => {
     res.download(__dirname + "/uploads/" + fileName, (err) => {
       if (err)
         console.log("error: " + err)
+    })
+  }
+  catch (err) {
+    console.log("Catched: " + err)
+  }
+})
+
+app.get("/get-name/*", async (req, res) => {
+  try {
+    let fileHash = req.url.replace("/get-name/", "")
+    let fileDB = readDB("./uploads/db.json")
+    res.send({
+      status: true,
+      message: "File found",
+      file: fileDB[fileHash]
     })
   }
   catch (err) {

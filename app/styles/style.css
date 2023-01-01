@@ -514,6 +514,11 @@ input[type=file] {
 
 #uploadLable {
   width: 80%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  overflow-wrap: break-word;
 }
 
 #shareBtn {
@@ -524,6 +529,29 @@ input[type=file] {
   padding: 10px 15px;
   border-radius: 1rem;
   display: none;
+}
+
+#hashInput {
+  width: 100%;
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+#afterShare {
+  display: none;
+}
+
+#copyHash {
+  width: 30px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+  padding: 5px 0;
+  background-image: url("../assets/icons/copy.png");
+  margin: auto;
 }
 
 .selected {

@@ -1,6 +1,5 @@
 const { ipcRenderer, shell } = require('electron');
 const remote = require('@electron/remote')
-const dialog = remote.dialog
 const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
@@ -826,7 +825,7 @@ function handleRightClick(x, y, test) {
 
   let choiceArr = ['Open', 'Copy Path', 'Copy', 'Paste', 'Delete', 'Rename', 'Properties', "Share"];
   if (elementClicked == 'menus') {
-    choiceArr = ['Copy Path', 'New File', 'Properties'];
+    choiceArr = ['Copy Path', 'New File', 'Properties', "Recieve"];
   }
   let isCode = localStorage.getItem('code');
   if (isCode) {
@@ -909,7 +908,69 @@ async function handleSingleLiClick(command, clickedEl) {
       break;
     case "share":
       shareFile(clickedEl)
+      break;
+    case "recieve":
+      recieveFile(clickedEl)
+      break;
   }
+}
+
+function recieveFile(fileName) {
+  let el = document.createElement('div');
+  el.classList.add('propertiesBox');
+  el.innerHTML = `
+    <div class="smallHead">
+    <p>Recieve file</p>
+    </div>
+    <div class="smallBody">
+      <div class="row">
+        <input type="text" placeholder="Enter your hash" id="hashInput"/>
+
+      </div>
+      <div class="lineB"></div>
+      <button id="downloadBtn" onclick="downloadFile()">Download</button>
+    </div>
+  `;
+
+  el.placeholder = fileName;
+  changeBgOpacity(0.1);
+  body.appendChild(el);
+
+  setTimeout(() => {
+    document.addEventListener('click', handleInfoClose);
+    function handleInfoClose(e) {
+      let targetIds = e.path.map(t => t.className).join(" ")
+      if (!targetIds.includes("propertiesBox")) {
+        changeBgOpacity('');
+        el.remove();
+        document.removeEventListener("click", handleInfoClose)
+      }
+      console.log(e.path, targetIds)
+    }
+  }, 500);
+}
+
+async function downloadFile() {
+  let _hash = document.getElementById("hashInput").value
+  const URL = "http://localhost:3000/"
+  const INFO_PATH = "get-name/"
+  const DOWNLOAD_PATH = "download/"
+
+  let fileInfo = await fetch(URL + INFO_PATH + _hash).then(res => res.json())
+  console.log(fileInfo)
+  fetch(URL + DOWNLOAD_PATH + _hash)
+    .then(resp => resp.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = fileInfo.file.name;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    })
+    .catch((err) => console.log('Error: ' + err));
 }
 
 function shareFile(fileName) {
@@ -946,8 +1007,7 @@ function shareFile(fileName) {
     name: fpName,
     img: imgURL,
   };
-  function changeEl() {
-    el.innerHTML = `
+  el.innerHTML = `
     <div class="smallHead">
     <img src="${fileProps.img}" width="20px"/>  <p> ${fileProps.name} - Share file</p>
     </div>
@@ -963,57 +1023,59 @@ function shareFile(fileName) {
       <p>
       Delete after 
         <select name="safeMode" id="safeMode">
+        <option value="oneDown">1 Download</option>
+        <option value="fiveDown">5 Download</option>
           <option value="oneDay">1 Day</option>
           <option value="sevDay">7 Days</option>
-          <option value="oneDown">1 Download</option>
-          <option value="fiveDown">5 Download</option>
         </select>
         days
       </p>
       <div class="lineB"></div>
-        <section id="uploadImage">
-          <input type="file" id="filesInput" onchange=handleFileUI() >
-          <label for="filesInput" id="uploadLable">Click here to select File</label>               
-        </section>
-      <div class="lineB"></div>
-      <button id="shareBtn" onclick=startSharing()>Share</button>
+      <section id="beforeShare">
+        <input type="file" id="filesInput" onchange=handleFileUI() >
+        <label for="filesInput" id="uploadLable">Click here to select File</label>               
+        <div class="lineB"></div>
+        <button id="shareBtn" onclick=startSharing()>Share</button>
+      </section>
+      <section id="afterShare">
+        <p>File shared succesfully</p>
+        <div class="lineB"></div>
+        <p>Your secret hash is: </p>
+        <p id="responseHash"></p>
+        <div id="copyHash"></div>
+      </section>
+
     </div>
   `;
-  }
-  changeEl();
 
-  // onclick=startFileSelect("${fileProps.location + "/" + fileName}")
+
   el.placeholder = fileName;
   changeBgOpacity(0.1);
   body.appendChild(el);
-  // setTimeout(() => {
-  //   document.addEventListener(
-  //     'click',
-  //     (e) => {
-  //       changeBgOpacity('');
-  //       el.remove();
-  //     },
-  //     { once: true }
-  //   );
-  // }, 500);
+  setTimeout(() => {
+    document.addEventListener('click', handleInfoClose);
+    function handleInfoClose(e) {
+      let targetIds = e.path.map(t => t.className).join(" ")
+      if (!targetIds.includes("propertiesBox")) {
+        changeBgOpacity('');
+        el.remove();
+        document.removeEventListener("click", handleInfoClose)
+      }
+      console.log(e.path, targetIds)
+    }
+  }, 500);
 }
 function handleFileUI() {
-  document.getElementById('uploadLable').innerHTML = document.getElementById('filesInput').value;
-  document.getElementById('shareBtn').style.display = "inline-block";
-}
+  let selectedFileName = document.getElementById('filesInput').value
+  if (!selectedFileName) {
+    document.getElementById('uploadLable').innerText = "Click here to select File";
+    document.getElementById('shareBtn').style.display = "none";
+  } else {
+    document.getElementById('uploadLable').innerText = selectedFileName;
+    document.getElementById('shareBtn').style.display = "inline-block";
+  }
 
-// function startFileSelect(_fileName) {
-//   console.log("Hello from startfileselect")
-//   dialog.showOpenDialog({
-//     properties: ['openFile', "showHiddenFiles"],
-//     defaultPath: "C://"
-//   }, function (files) {
-//     if (files !== undefined) {
-//       console.log(files)
-//       // handle files
-//     }
-//   })
-// }
+}
 
 async function startSharing() {
 
@@ -1026,9 +1088,12 @@ async function startSharing() {
   const response = await fetch("http://localhost:3000/upload-file", {
     method: "POST",
     body: formData
-  })
-  const resJSON = response.json()
-  console.log(resJSON)
+  }).then(res => res.json())
+
+  document.getElementById("beforeShare").style.display = "none"
+  document.getElementById("afterShare").style.display = "block"
+  document.getElementById("responseHash").innerText = response.hash
+  console.log(response)
 }
 
 function copyFile(fileName) {
@@ -1146,6 +1211,7 @@ function properties(fileName) {
     fs.writeFileSync(TEMP_FOLDER_FILE, "")
     console.log("before spawn")
     setTimeout(() => {
+      console.log([SPAWN_FILE, currentPath + '/' + fileName])
       spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { windowsHide: false, detached: false, shell: true })
     }, 100)
     console.log("after")
