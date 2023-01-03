@@ -936,7 +936,6 @@ function recieveFile(fileName) {
         el.remove();
         document.removeEventListener("click", handleInfoClose)
       }
-      console.log(e.path, targetIds)
     }
   }, 500);
 }
@@ -989,11 +988,11 @@ function shareFile(fileName) {
       <div class="lineB"></div>
       <p>
       Delete after 
-        <select name="safeMode" id="safeMode">
-        <option value="oneDown">1 Download</option>
-        <option value="fiveDown">5 Download</option>
-          <option value="oneDay">1 Day</option>
-          <option value="sevDay">7 Days</option>
+        <select name="downloadSelect" id="downloadSelect">
+          <option value="1">1 Download</option>
+          <option value="2">2 Download</option>
+          <option value="5">5 Download</option>
+          <option value="10">10 Download</option>
         </select>
         days
       </p>
@@ -1028,7 +1027,6 @@ function shareFile(fileName) {
         el.remove();
         document.removeEventListener("click", handleInfoClose)
       }
-      console.log(e.path, targetIds)
     }
   }, 500);
 }
@@ -1048,9 +1046,12 @@ function handleFileSelectUI() {
 async function startSharing() {
   const file = document.getElementById("filesInput").files
   const formData = new FormData()
-  formData.append(file[0].name, file[0])
-
-  const response = await fetch("http://localhost:3000/upload-file", {
+  let sel = document.getElementById("downloadSelect")
+  formData.append("file", file[0]);
+  formData.append("maxDownloads", sel.value);
+  const URL = process.env.SERVER_URL
+  const UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
+  const response = await fetch(URL + UPLOAD_PATH, {
     method: "POST",
     body: formData
   }).then(res => res.json())
@@ -1176,13 +1177,11 @@ function properties(fileName) {
   body.appendChild(el);
   if (isRlyFolder == 'folder') {
     fs.writeFileSync(TEMP_FOLDER_FILE, "")
-    console.log("before spawn")
     setTimeout(() => {
       console.log([SPAWN_FILE, currentPath + '/' + fileName])
       const spawnedProc = spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { detached: false, stdio: ['ignore'] })
       spawnedProc.unref();
     }, 100)
-    console.log("after")
     let idInt = setInterval(() => {
       let fileRead = fs.readFileSync(TEMP_FOLDER_FILE, "utf-8")
       if (fileRead) {

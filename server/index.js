@@ -1,46 +1,69 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
 const fs = require("fs")
+
+require("dotenv").config()
+const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
+const SERVER_INFO_LINK = process.env.SERVER_INFO_LINK
+const SERVER_DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
+const SERVER_DOWNLOAD_LINK = process.env.SERVER_DOWNLOAD_LINK
+const SERVER_UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
+const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
+const DB_FILE = process.env.DB_FILE
+const PORT = process.env.PORT
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/upload-file', fileUpload({ createParentPath: true }), async (req, res) => {
-  console.log("here")
-  console.log(req.files)
+app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
   try {
     if (!req.files) {
       console.log("failed")
+      console.log("No files recieved")
       res.send({
         status: false,
-        message: 'No file uploaded'
+        message: 'No file uploaded',
+        hash: "File upload failed"
       });
     } else {
+      let maxDownloads = req.body.maxDownloads
       let uploadedFiles = req.files;
       let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
+
       let hashedFile = generateHash(uploadedFile)
-      let fileObject = readDB("./uploads/db.json")
+      let fileObject = readDB(DB_FILE)
+
+      // Check for more downloads than allowed
+      // CAUSE OF CHECKING EVERY AND NOT CURRENT ITEM THIS IS NOT OPTIMAL WAY!
+      // for (key in fileObject) {
+      //   if (fileObject[key].downloads >= fileObject[key].maxDownloads) {
+      //     removeFile(__dirname + UPLOAD_FOLDER + key)
+      //     delete fileObject[key]
+      //   }
+      // }
+
+      // Initialize object structure
       fileObject[hashedFile] = {
         name: uploadedFile.name,
         size: uploadedFile.size,
-        type: uploadedFile.mimetype
+        type: uploadedFile.mimetype,
+        downloads: 0,
+        maxDownloads
       }
-      console.log(fileObject)
 
-      uploadedFile.mv(__dirname + '/uploads/' + hashedFile, (err) => {
+      // Dowload uploaded file using mv function, coming from 'express-fileupload'
+      uploadedFile.mv(__dirname + UPLOAD_FOLDER + hashedFile, (err) => {
         if (err)
           console.log("error: " + err)
       });
 
-      writeDB("./uploads/db.json", fileObject)
+      writeDB(DB_FILE, fileObject)
 
+      // Response successfully 
+      // Returned hash to display copiable link
       res.send({
         status: true,
         message: 'File is uploaded',
@@ -53,24 +76,39 @@ app.post('/upload-file', fileUpload({ createParentPath: true }), async (req, res
   }
 });
 
-app.get("/download/*", async (req, res) => {
+app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
   try {
-    let fileName = req.url.replace("/download/", "")
-    console.log(fileName)
-    res.download(__dirname + "/uploads/" + fileName, (err) => {
+    // Get File hash from URL
+    let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
+    let fileObject = readDB(DB_FILE)
+
+    res.download(__dirname + UPLOAD_FOLDER + fileHash, (err) => {
       if (err)
         console.log("error: " + err)
+      else {
+        removeFile(__dirname + UPLOAD_FOLDER + fileHash)
+        delete fileObject[fileHash]
+      }
     })
+
   }
   catch (err) {
     console.log("Catched: " + err)
   }
 })
 
-app.get("/get-name/*", async (req, res) => {
+app.get(SERVER_INFO_LINK, async (req, res) => {
   try {
-    let fileHash = req.url.replace("/get-name/", "")
-    let fileDB = readDB("./uploads/db.json")
+    // Get File hash from URL
+    let fileHash = req.url.replace(SERVER_INFO_PATH, "")
+    let fileDB = readDB(DB_FILE)
+
+    // Increase the download number in coresponding file
+    fileDB[fileHash].downloads++
+
+    writeDB(DB_FILE, fileDB)
+
+    // Response successfully 
     res.send({
       status: true,
       message: "File found",
@@ -101,6 +139,9 @@ function generateHash(file) {
 function readDB(_path) {
   return JSON.parse(fs.readFileSync(_path, "utf-8"))
 }
-function writeDB(_path, content) {
-  return fs.writeFileSync(_path, JSON.stringify(content))
+function writeDB(_path, _content) {
+  return fs.writeFileSync(_path, JSON.stringify(_content))
+}
+function removeFile(_path) {
+  fs.unlinkSync(_path)
 }
