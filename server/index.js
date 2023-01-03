@@ -36,15 +36,6 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       let hashedFile = generateHash(uploadedFile)
       let fileObject = readDB(DB_FILE)
 
-      // Check for more downloads than allowed
-      // CAUSE OF CHECKING EVERY AND NOT CURRENT ITEM THIS IS NOT OPTIMAL WAY!
-      // for (key in fileObject) {
-      //   if (fileObject[key].downloads >= fileObject[key].maxDownloads) {
-      //     removeFile(__dirname + UPLOAD_FOLDER + key)
-      //     delete fileObject[key]
-      //   }
-      // }
-
       // Initialize object structure
       fileObject[hashedFile] = {
         name: uploadedFile.name,
@@ -71,7 +62,7 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       });
     }
   } catch (err) {
-    console.log(err)
+    console.log("Unable to upload. Error: " + err)
     res.status(500).send(err);
   }
 });
@@ -84,7 +75,7 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
 
     res.download(__dirname + UPLOAD_FOLDER + fileHash, (err) => {
       if (err)
-        console.log("error: " + err)
+        console.log("Failed to download. Error: " + err)
       else {
         removeFile(__dirname + UPLOAD_FOLDER + fileHash)
         delete fileObject[fileHash]
@@ -93,7 +84,7 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
 
   }
   catch (err) {
-    console.log("Catched: " + err)
+    console.log("Catched error while downloading. Error: " + err)
   }
 })
 
@@ -116,7 +107,7 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
     })
   }
   catch (err) {
-    console.log("Catched: " + err)
+    console.log("Catched error while getting file info. Error: " + err)
   }
 })
 
@@ -142,6 +133,7 @@ function readDB(_path) {
 function writeDB(_path, _content) {
   return fs.writeFileSync(_path, JSON.stringify(_content))
 }
+
 function removeFile(_path) {
   fs.unlinkSync(_path)
 }
