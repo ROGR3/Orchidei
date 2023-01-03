@@ -555,6 +555,10 @@ input[type="file"] {
   display: none;
 }
 
+#responseHash {
+  display: inline-block;
+}
+
 #copyHash {
   width: 30px;
   height: 20px;
@@ -564,7 +568,7 @@ input[type="file"] {
   cursor: pointer;
   padding: 5px 0;
   background-image: url('../assets/icons/copy.png');
-  margin: auto;
+  display: inline-block;
 }
 
 .selected {

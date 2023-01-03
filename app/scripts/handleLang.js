@@ -1,4 +1,5 @@
 let { lang } = require('../setting.json');
+
 let langs = {
   eng: {
     arr: [
@@ -273,9 +274,11 @@ let langs = {
     },
   },
 };
+
 let curLang = langs[lang];
 let langsOpts = `<option value="${lang}">${lang}</option>`;
 let langsArr = [lang];
+
 function handleLang() {
   curLang = langs[lang];
   langsOpts = `<option value="${lang}">${lang}</option>`;
@@ -303,11 +306,3 @@ for (l in langs) {
     langsArr.push(l);
   }
 }
-let singleds = {
-  settings: 'Settings',
-  language: 'Language:',
-  sPath: 'Starting path:',
-  nori: 'Number of recent items:',
-  safeMode: ' Safe mode:',
-  sae: 'Save and Exit',
-};

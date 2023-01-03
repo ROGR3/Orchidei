@@ -5,13 +5,19 @@ const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
 const trashCommand = require('trash');
 const fs = require('fs');
+const os = require("os")
+
+require("dotenv").config()
 
 let { max_ls_length, start_path, safe_mode } = require('../setting.json');
 
 const SPAWN_FILE = __dirname + '/../temp/spawn.js'
 const TEMP_FOLDER_FILE = __dirname + '/../temp/folder.txt'
+
 const SPACE_SYMBOL = 'idkssppccidk';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
+const HOME_DIR = os.homedir()
+
 const currentPathDiv = document.querySelector('.currentPath');
 const body = document.querySelector('body');
 const foldersMenu = document.querySelector('.foldersMenu');
@@ -26,6 +32,7 @@ const goFrontIcon = document.querySelector('.iconRight');
 const copyIcon = document.querySelector('.copy');
 const searchIcon = document.querySelector('.glass');
 const searchInput = document.querySelector('#searchInput');
+
 
 let currentPath = start_path;
 let lastPath = currentPath;
@@ -46,8 +53,11 @@ let soloNode = '';
 
 let copiedFile = '';
 let copiedFileName = '';
+
+
 function addToLast(fileString, isFolder) {
   if (isInList(fileString, isFolder ? lastFoldersArr : lastFilesArr)) return
+
   if (isFolder) {
     lastFoldersArr.unshift({ currentPath: currentPath, name: fileString });
     lastFoldersArr.length = max_ls_length;
@@ -55,14 +65,10 @@ function addToLast(fileString, isFolder) {
     lastFilesArr.unshift({ currentPath: currentPath + '/' + fileString, name: fileString });
     lastFilesArr.length = max_ls_length;
   }
+
   localStorage.setItem('lastShow', JSON.stringify({ lastFolders: lastFoldersArr, lastFiles: lastFilesArr }));
 }
-function isInList(str, arr) {
-  for (let i = 0; i < arr.length; i++)
-    if (arr[i].name === str)
-      return true
-  return false
-}
+
 
 function sortByAplh(currentFiles) {
   currentFiles.forEach((el) => (el = el.toLowerCase()));
@@ -100,14 +106,7 @@ function sortBySize(currentFilesSizes, isNew) {
   createUI(currentFilesSizes);
   isSortedBySize = !isSortedBySize;
 }
-async function getFilesizeInBytes(filename) {
-  try {
-    let { size } = fs.statSync(currentPath + '/' + filename);
-    return size;
-  } catch (err) {
-    return 0;
-  }
-}
+
 
 function createUI(currentFiles) {
   if (currentPath.length > 40) {
@@ -238,6 +237,7 @@ function popMsgBox(txt, x, y) {
   }, 500);
   body.appendChild(el);
 }
+
 function rlyWant(txt, x, y, file) {
   let el = document.createElement('div');
   el.classList.add('popUpBox');
@@ -268,6 +268,7 @@ function rlyWant(txt, x, y, file) {
 
   body.appendChild(el);
 }
+
 function handleChangePath() {
   window.scrollTo({
     top: 0,
@@ -288,21 +289,14 @@ function handleChangePath() {
       handleSingleDrag();
     } else {
       await files.forEach(async (file) => {
-        currentFilesSizes.push({ name: file, size: await getFilesizeInBytes(file) });
+        currentFilesSizes.push({ name: file, size: await getFilesizeInBytes(currentPath + '/' + file) });
       });
       sortBySize(currentFilesSizes, 'yes');
       handleSingleDrag();
     }
   });
 }
-function getUser(cp) {
-  curPosArr = cp.split('\\');
-  for (let i = 0; i < curPosArr.length; ++i) {
-    if (curPosArr[i].toLowerCase() == 'users') {
-      return curPosArr[i + 1];
-    }
-  }
-}
+
 
 function addListeners() {
   let newInpCounter = 0;
@@ -466,7 +460,7 @@ function initLeftHTMLBar() {
   for (let i = 0; i < searchFoldersArr.length; i++) {
     let el = document.createElement('h3');
     el.classList.add('title');
-    el.setAttribute('id', 'c:/users/' + getUser(__dirname).toLowerCase() + '/' + searchFoldersArr[i].toLowerCase());
+    el.setAttribute('id', HOME_DIR + '/' + searchFoldersArr[i].toLowerCase());
     el.innerHTML = searchFoldersArr[i];
     el.addEventListener('click', async (e) => {
       await handleLeftBarClick(e);
@@ -511,6 +505,7 @@ function initLeftHTMLBar() {
     }
   }
 }
+
 function handleWindowMove() {
   const currentWindow = remote.getCurrentWindow();
 
@@ -525,6 +520,7 @@ function handleWindowMove() {
     }
   });
 }
+
 function firstCall() {
   handleClose();
   handleChangePath();
@@ -575,7 +571,7 @@ function initImage(file, isFilePassed) {
       case 'jpeg':
       case 'jfif':
       case 'png':
-        res = replaceToMakePath(file);
+        res = replaceToMakePath(currentPath + "/" + file);
         break;
       case 'mp3':
         res = 'audio.png';
@@ -742,12 +738,7 @@ function initImage(file, isFilePassed) {
   }
   return `url(../assets/folders/${res})`;
 }
-function replaceToMakePath(file) {
-  return currentPath + '/' + file.replace(SPACE_REGEX, '%20').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-}
-window.addEventListener('DOMContentLoaded', () => {
-  firstCall();
-});
+
 
 function handleSingleDrag() {
   let solos = document.querySelectorAll('.solo');
@@ -952,12 +943,11 @@ function recieveFile(fileName) {
 
 async function downloadFile() {
   let _hash = document.getElementById("hashInput").value
-  const URL = "http://localhost:3000/"
-  const INFO_PATH = "get-name/"
-  const DOWNLOAD_PATH = "download/"
+  const URL = process.env.SERVER_URL
+  const INFO_PATH = process.env.SERVER_INFO_PATH
+  const DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
 
   let fileInfo = await fetch(URL + INFO_PATH + _hash).then(res => res.json())
-  console.log(fileInfo)
   fetch(URL + DOWNLOAD_PATH + _hash)
     .then(resp => resp.blob())
     .then(blob => {
@@ -969,6 +959,7 @@ async function downloadFile() {
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
+      a.remove()
     })
     .catch((err) => console.log('Error: ' + err));
 }
@@ -976,49 +967,25 @@ async function downloadFile() {
 function shareFile(fileName) {
   let el = document.createElement('div');
   el.classList.add('propertiesBox');
-  const mime = require('mime');
-  fileName = fileName.includes("menus") ? "" : fileName;
-  let mimeType = mime.getType(currentPath + '/' + fileName);
-  let fsStats = fs.statSync(currentPath + '/' + fileName);
-  let fileOrFolder = 'file';
-  let testSize = 'N/A';
-  if (isFile(fileName) == 'file') {
-    fileOrFolder = true;
-    testSize = fsStats.size;
-  } else if (isFile(fileName) == 'locked-folder') {
-    fileOrFolder = 'url(../assets/folders/lockedFolder.png)';
-  } else {
-    fileOrFolder = false;
-    testSize = 0;
-  }
+
   let imgURL =
-    fileOrFolder == 'url(../assets/folders/lockedFolder.png)'
+    isFile(fileName) == 'locked-folder'
       ? '../assets/folders/lockedFolder.png'
-      : initImage(fileName, fileOrFolder).replace('url(', '').replace(')', '');
-  let isRlyFolder = mimeType == null && fsStats.size == 0 ? 'folder' : 'Unknown';
+      : initImage(fileName, isFile(fileName) == 'file').replace('url(', '').replace(')', '');
+
   let fpName = fileName ? fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName : currentPath.split("/").pop();
-  const fileProps = {
-    size: testSize | Math.floor(Math.random() * 1_000_000 + 100_000),
-    createdAt: fsStats.birthtime.toLocaleString(),
-    modifiedAt: fsStats.mtime.toLocaleString(),
-    openedAt: fsStats.atime.toLocaleString(),
-    location: currentPath,
-    fileType: mimeType || isRlyFolder,
-    name: fpName,
-    img: imgURL,
-  };
+
   el.innerHTML = `
     <div class="smallHead">
-    <img src="${fileProps.img}" width="20px"/>  <p> ${fileProps.name} - Share file</p>
+    <img src="${imgURL}" width="20px"/>  <p> ${fpName} - Share file</p>
     </div>
     <div class="smallBody">
       <div class="row">
-        <img src="${fileProps.img}" width="50px"/>
-        <h3>${fileProps.name}</h3>
+        <img src="${imgURL}" width="50px"/>
+        <h3>${fpName}</h3>
       </div>
       <div class="lineB"></div>
-      <p>${curLang.singles.location} ${fileProps.location}</p>
-      <p>${curLang.singles.size}: ${convertBytes(fileProps.size)}</p>
+      <p>${curLang.singles.location} ${currentPath}</p>
       <div class="lineB"></div>
       <p>
       Delete after 
@@ -1032,7 +999,7 @@ function shareFile(fileName) {
       </p>
       <div class="lineB"></div>
       <section id="beforeShare">
-        <input type="file" id="filesInput" onchange=handleFileUI() >
+        <input type="file" id="filesInput" onchange=handleFileSelectUI() >
         <label for="filesInput" id="uploadLable">Click here to select File</label>               
         <div class="lineB"></div>
         <button id="shareBtn" onclick=startSharing()>Share</button>
@@ -1065,7 +1032,8 @@ function shareFile(fileName) {
     }
   }, 500);
 }
-function handleFileUI() {
+
+function handleFileSelectUI() {
   let selectedFileName = document.getElementById('filesInput').value
   if (!selectedFileName) {
     document.getElementById('uploadLable').innerText = "Click here to select File";
@@ -1078,12 +1046,9 @@ function handleFileUI() {
 }
 
 async function startSharing() {
-
   const file = document.getElementById("filesInput").files
   const formData = new FormData()
-  console.log(file[0])
   formData.append(file[0].name, file[0])
-  console.log(formData)
 
   const response = await fetch("http://localhost:3000/upload-file", {
     method: "POST",
@@ -1100,6 +1065,7 @@ function copyFile(fileName) {
   copiedFile = currentPath + '/' + fileName;
   copiedFileName = fileName;
 }
+
 function insertFile(fileName) {
   let adddedCopy = createFileWithCopy(fileName);
   fs.copyFile(copiedFile, currentPath + '/' + adddedCopy, (err) => {
@@ -1109,6 +1075,7 @@ function insertFile(fileName) {
     handleChangePath();
   });
 }
+
 function deleteFile(fileName) {
   (async () => {
     if (isFile(currentPath + '/' + fileName) == 'folder') {
@@ -1212,7 +1179,8 @@ function properties(fileName) {
     console.log("before spawn")
     setTimeout(() => {
       console.log([SPAWN_FILE, currentPath + '/' + fileName])
-      spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { windowsHide: false, detached: false, shell: true })
+      const spawnedProc = spawn('node', [SPAWN_FILE, currentPath + '/' + fileName], { detached: false, stdio: ['ignore'] })
+      spawnedProc.unref();
     }, 100)
     console.log("after")
     let idInt = setInterval(() => {
@@ -1347,53 +1315,7 @@ function handleSelectDiv(ev) {
     elementClicked.classList.add('selected');
   }
 }
-window.addEventListener('resize', () => {
-  if (window.innerWidth >= 1669) {
-    searchIcon.style.left = '-80px';
-  } else {
-    if (window.innerWidth >= 1137) {
-      searchIcon.style.left = '-75px';
-    } else {
-      searchIcon.style.left = '';
-      if (window.innerWidth >= 1037) {
-        document.querySelector('.sortByDiv').style.display = '';
-        searchIcon.style.left = '-60px';
-      } else {
-        document.querySelector('.sortByDiv').style.display = 'none';
-        searchIcon.style.left = '';
-        if (window.innerWidth >= 834) {
-          document.querySelector('.curPathDiv').style.width = '';
-          document.querySelector('.sortIcons').style.width = '';
-          if (currentPath.length > 40) {
-            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\').slice(0, 37) + '...';
-          } else {
-            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\');
-          }
-        } else {
-          document.querySelector('.curPathDiv').style.width = '20%';
-          document.querySelector('.sortIcons').style.width = '80px';
-          if (currentPath.length > 10) {
-            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\').slice(0, 7) + '...';
-          } else {
-            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\');
-          }
-          if (window.innerWidth >= 515) {
-            document.querySelector('.sideMenu').style.display = '';
-            foldersMenu.style.margin = '';
-          } else {
-            document.querySelector('.sideMenu').style.display = 'none';
-            foldersMenu.style.margin = '80px 30px 0 30px';
-            if (window.innerWidth >= 400) {
-              document.querySelector('.curPathDiv').style.width = '20%';
-            } else {
-              document.querySelector('.curPathDiv').style.width = '10%';
-            }
-          }
-        }
-      }
-    }
-  }
-});
+
 
 function handleWaitAnim(goIn) {
   const soloDiv = document.querySelectorAll('.solo');
@@ -1406,56 +1328,6 @@ function handleWaitAnim(goIn) {
     document.querySelector('.menus').style.opacity = '';
     soloDiv.forEach((el) => (el.style.cursor = 'pointer'));
   }
-}
-
-document.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-});
-function getAllFiles(dirPath, arrayOfFiles) {
-  files = fs.readdirSync(dirPath);
-
-  arrayOfFiles = arrayOfFiles || [];
-
-  files.forEach(function (file) {
-    try {
-      if (fs.statSync(dirPath + '/' + file).isDirectory()) {
-        arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
-      } else {
-        arrayOfFiles.push(dirPath + '/' + file);
-      }
-    } catch (err) {
-      handleErr(err);
-    }
-  });
-
-  return arrayOfFiles;
-}
-function getTotalSize(directoryPath) {
-  const arrayOfFiles = getAllFiles(directoryPath);
-
-  let totalSize = 0;
-
-  arrayOfFiles.forEach(function (filePath) {
-    totalSize += fs.statSync(filePath).size;
-  });
-
-  return totalSize;
-}
-function convertBytes(bytes) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-
-  if (bytes == 0) {
-    return 'N/A';
-  }
-
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-
-  if (i == 0) {
-    return bytes + ' ' + sizes[i];
-  }
-
-  return (bytes / Math.pow(1000, i)).toFixed(1) + ' ' + sizes[i];
 }
 
 
@@ -1491,6 +1363,7 @@ function handleClose() {
     window.isMaximized() ? window.unmaximize() : window.maximize();
   }
 }
+
 async function createSetting() {
   let el = document.createElement('div');
   el.classList.add('propertiesBox');
@@ -1540,7 +1413,6 @@ async function createSetting() {
 }
 
 function closeSettings(isSaved) {
-  safe_mode;
   let edArr = [
     document.getElementById('safeMode').options[0].value,
     document.getElementById('safeMode').options[1].value,
@@ -1592,3 +1464,60 @@ function closeSettings(isSaved) {
 
 
 
+document.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 1669) {
+    searchIcon.style.left = '-80px';
+  } else {
+    if (window.innerWidth >= 1137) {
+      searchIcon.style.left = '-75px';
+    } else {
+      searchIcon.style.left = '';
+      if (window.innerWidth >= 1037) {
+        document.querySelector('.sortByDiv').style.display = '';
+        searchIcon.style.left = '-60px';
+      } else {
+        document.querySelector('.sortByDiv').style.display = 'none';
+        searchIcon.style.left = '';
+        if (window.innerWidth >= 834) {
+          document.querySelector('.curPathDiv').style.width = '';
+          document.querySelector('.sortIcons').style.width = '';
+          if (currentPath.length > 40) {
+            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\').slice(0, 37) + '...';
+          } else {
+            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\');
+          }
+        } else {
+          document.querySelector('.curPathDiv').style.width = '20%';
+          document.querySelector('.sortIcons').style.width = '80px';
+          if (currentPath.length > 10) {
+            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\').slice(0, 7) + '...';
+          } else {
+            currentPathDiv.innerHTML = currentPath.replace(/\//g, '\\');
+          }
+          if (window.innerWidth >= 515) {
+            document.querySelector('.sideMenu').style.display = '';
+            foldersMenu.style.margin = '';
+          } else {
+            document.querySelector('.sideMenu').style.display = 'none';
+            foldersMenu.style.margin = '80px 30px 0 30px';
+            if (window.innerWidth >= 400) {
+              document.querySelector('.curPathDiv').style.width = '20%';
+            } else {
+              document.querySelector('.curPathDiv').style.width = '10%';
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  firstCall();
+});

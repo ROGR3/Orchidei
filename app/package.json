@@ -25,6 +25,7 @@
     "@electron/remote": "^2.0.9",
     "async": "^3.2.1",
     "command-exists": "^1.2.9",
+    "dotenv": "^16.0.3",
     "fast-folder-size": "^1.6.1",
     "lookpath": "^1.2.2",
     "mime": "^2.5.2",
