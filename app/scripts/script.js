@@ -1293,6 +1293,7 @@ function createFile() {
     );
   }, 500);
 }
+
 let lastSelectedEl = [];
 function handleSelectDiv(ev) {
   let elementClicked = ev.target.classList.value.includes('solo ') ? ev.target : ev.target.parentNode;

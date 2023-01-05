@@ -558,6 +558,15 @@ input[type=file] {
   display: inline-block;
 }
 
+#downloadBtn {
+  font-weight: bold;
+  background: 0;
+  border: 0;
+  font-size: 1rem;
+  color: wheat;
+  cursor: pointer;
+}
+
 .selected {
   background-color: rgba(49, 49, 49, 0.534);
 }
