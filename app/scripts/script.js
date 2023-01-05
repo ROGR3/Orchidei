@@ -571,7 +571,8 @@ function initImage(file, isFilePassed) {
       case 'jpeg':
       case 'jfif':
       case 'png':
-        res = replaceToMakePath(currentPath + "/" + file);
+      case 'svg':
+        res = replaceToMakePath(currentPath + "/" + file, SPACE_REGEX);
         break;
       case 'mp3':
         res = 'audio.png';
@@ -998,7 +999,7 @@ function shareFile(fileName) {
       </p>
       <div class="lineB"></div>
       <section id="beforeShare">
-        <input type="file" id="filesInput" onchange=handleFileSelectUI() >
+        <input type="file" id="filesInput" onchange=handleShareSelectUI() >
         <label for="filesInput" id="uploadLable">Click here to select File</label>               
         <div class="lineB"></div>
         <button id="shareBtn" onclick=startSharing()>Share</button>
@@ -1008,7 +1009,7 @@ function shareFile(fileName) {
         <div class="lineB"></div>
         <p>Your secret hash is: </p>
         <p id="responseHash"></p>
-        <div id="copyHash"></div>
+        <div id="copyHash" onclick="copyHashCode()"></div>
       </section>
 
     </div>
@@ -1031,7 +1032,12 @@ function shareFile(fileName) {
   }, 500);
 }
 
-function handleFileSelectUI() {
+function copyHashCode() {
+  navigator.clipboard.writeText(document.getElementById("responseHash").innerText)
+  popMsgBox('Copied to clipboard', '45%', '45%');
+}
+
+function handleShareSelectUI() {
   let selectedFileName = document.getElementById('filesInput').value
   if (!selectedFileName) {
     document.getElementById('uploadLable').innerText = "Click here to select File";
@@ -1045,6 +1051,11 @@ function handleFileSelectUI() {
 
 async function startSharing() {
   const file = document.getElementById("filesInput").files
+  const MAX_SHARE_SIZE = 21_000_000
+  if (file[0].size > MAX_SHARE_SIZE) {
+    document.getElementById("beforeShare").innerHTML += "<p>Your file is too big. Max file limit is " + convertBytes(MAX_SHARE_SIZE) + "</p>"
+    return
+  }
   const formData = new FormData()
   let sel = document.getElementById("downloadSelect")
   formData.append("file", file[0]);
