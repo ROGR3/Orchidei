@@ -13,6 +13,8 @@ const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
 const DB_FILE = process.env.DB_FILE
 const PORT = process.env.PORT
 
+const ABSOLUTE_UPLOAD_FOLDER = __dirname + "/" + UPLOAD_FOLDER
+
 const app = express();
 
 
@@ -46,7 +48,7 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       }
 
       // Dowload uploaded file using mv function, coming from 'express-fileupload'
-      uploadedFile.mv(__dirname + UPLOAD_FOLDER + hashedFile, (err) => {
+      uploadedFile.mv(ABSOLUTE_UPLOAD_FOLDER + hashedFile, (err) => {
         if (err)
           console.log("error: " + err)
       });
@@ -73,11 +75,11 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
     let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
     let fileObject = readDB(DB_FILE)
 
-    res.download(__dirname + UPLOAD_FOLDER + fileHash, (err) => {
+    res.download(ABSOLUTE_UPLOAD_FOLDER + fileHash, (err) => {
       if (err)
         console.log("Failed to download. Error: " + err)
       else {
-        removeFile(__dirname + UPLOAD_FOLDER + fileHash)
+        removeFile(ABSOLUTE_UPLOAD_FOLDER + fileHash)
         delete fileObject[fileHash]
       }
     })
@@ -111,9 +113,14 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
   }
 })
 
-app.listen(PORT, () =>
+app.listen(PORT, () => {
+  if (!fs.existsSync(UPLOAD_FOLDER)) {
+    fs.mkdirSync(UPLOAD_FOLDER, { recursive: true });
+    fs.writeFileSync(DB_FILE, "{}");
+    console.log(UPLOAD_FOLDER + " did not not exist. Created together with file " + DB_FILE)
+  }
   console.log(`App is listening on port ${PORT}.`)
-);
+});
 
 
 function generateHash(file) {
