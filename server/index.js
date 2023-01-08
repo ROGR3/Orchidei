@@ -24,6 +24,12 @@ app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
+app.get("/test", (req, res) => {
+  console.log(fs.readdirSync(UPLOAD_FOLDER))
+  console.log(ABSOLUTE_UPLOAD_FOLDER, UPLOAD_FOLDER)
+  res.send("Hello World!")
+})
+
 app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
   try {
     if (!req.files) {
@@ -119,7 +125,6 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 
 app.listen(PORT, () => {
   fs.writeFileSync(DB_FILE, "{}");
-  console.log(DB_FILE + " did not not exist. Created  file ")
   console.log(`App is listening on port ${PORT}.`)
 });
 
