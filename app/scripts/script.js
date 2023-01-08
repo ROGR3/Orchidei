@@ -17,6 +17,7 @@ const TEMP_FOLDER_FILE = __dirname + '/../temp/folder.txt'
 const SPACE_SYMBOL = 'idkssppccidk';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
 const HOME_DIR = os.homedir()
+const MAX_SHARE_SIZE = 21_000_000
 
 const currentPathDiv = document.querySelector('.currentPath');
 const body = document.querySelector('body');
@@ -1051,7 +1052,6 @@ function handleShareSelectUI() {
 
 async function startSharing() {
   const file = document.getElementById("filesInput").files
-  const MAX_SHARE_SIZE = 21_000_000
   if (file[0].size > MAX_SHARE_SIZE) {
     document.getElementById("beforeShare").innerHTML += "<p>Your file is too big. Max file limit is " + convertBytes(MAX_SHARE_SIZE) + "</p>"
     return

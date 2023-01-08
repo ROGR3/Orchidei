@@ -13,21 +13,13 @@ const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
 const DB_FILE = process.env.DB_FILE
 const PORT = process.env.PORT
 
+const MAX_SHARE_SIZE = 21_000_000
+
+
 const app = express();
 
 
 app.use(cors());
-
-app.get("/", (req, res) => {
-  res.send("Hello World!")
-})
-
-app.get("/test", (req, res) => {
-  console.log(fs.readdirSync(UPLOAD_FOLDER))
-  console.log(fs.readFileSync(DB_FILE))
-  console.log(UPLOAD_FOLDER, UPLOAD_FOLDER)
-  res.send("Hello World!")
-})
 
 app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
   try {
@@ -43,6 +35,8 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       let maxDownloads = req.body.maxDownloads
       let uploadedFiles = req.files;
       let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
+      if (uploadedFile.size >= 21_000_000)
+        return
 
       let hashedFile = generateHash(uploadedFile)
       let fileObject = readDB(DB_FILE)
