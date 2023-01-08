@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.get("/test", (req, res) => {
   console.log(fs.readdirSync(UPLOAD_FOLDER))
+  console.log(fs.readFileSync(DB_FILE))
   console.log(UPLOAD_FOLDER, UPLOAD_FOLDER)
   res.send("Hello World!")
 })
