@@ -20,6 +20,10 @@ const app = express();
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Hello World!")
+})
+
 app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
   try {
     if (!req.files) {
@@ -115,7 +119,7 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 
 app.listen(PORT, () => {
   if (!fs.existsSync(UPLOAD_FOLDER)) {
-    fs.mkdirSync(UPLOAD_FOLDER, { recursive: true });
+    fs.mkdirSync(UPLOAD_FOLDER);
     fs.writeFileSync(DB_FILE, "{}");
     console.log(UPLOAD_FOLDER + " did not not exist. Created together with file " + DB_FILE)
   }
