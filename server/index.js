@@ -118,11 +118,8 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  if (!fs.existsSync(UPLOAD_FOLDER)) {
-    // fs.mkdirSync(UPLOAD_FOLDER);
-    fs.writeFileSync("/tmp/test.json", "{}");
-    console.log(UPLOAD_FOLDER + " did not not exist. Created together with file " + DB_FILE)
-  }
+  fs.writeFileSync("/tmp/test.json", "{}");
+  console.log(DB_FILE + " did not not exist. Created  file ")
   console.log(`App is listening on port ${PORT}.`)
 });
 
