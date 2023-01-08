@@ -118,7 +118,7 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  fs.writeFileSync("/tmp/test.json", "{}");
+  fs.writeFileSync(DB_FILE, "{}");
   console.log(DB_FILE + " did not not exist. Created  file ")
   console.log(`App is listening on port ${PORT}.`)
 });
