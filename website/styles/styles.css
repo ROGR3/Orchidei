@@ -22,8 +22,11 @@ header {
   justify-content: space-between;
 }
 header #logo {
-  height: 10%;
+  height: 60px;
   position: absolute;
+  top: 0;
+  left: 150px;
+  cursor: pointer;
 }
 header #right {
   float: right;
@@ -40,8 +43,11 @@ header #right ul li {
   cursor: pointer;
   transition: 0.2s;
 }
+header #right ul li a {
+  text-decoration: none;
+  color: inherit;
+}
 header #right ul li:hover {
-  font-weight: bold;
   color: #B78AC1;
 }
 header #right ul .selected {
@@ -54,6 +60,10 @@ header #right ul .selected {
   width: 50%;
   padding-left: 8rem;
   padding-top: 10rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 #container #left h1 {
   font-size: 9rem;
@@ -78,6 +88,7 @@ header #right ul .selected {
   font-weight: bold;
   font-size: 3rem;
   color: #B78AC1;
+  cursor: pointer;
 }
 #container #right {
   float: right;
@@ -105,6 +116,10 @@ header #right ul .selected {
   border-radius: 0.5rem;
   position: absolute;
   left: 60rem;
+  transition: 0.2s ease;
+}
+#container #right #orchImage:hover {
+  transform: scale(1.2);
 }
 #container #right #settingsImage {
   z-index: 1;
@@ -117,4 +132,105 @@ header #right ul .selected {
   left: 82rem;
   transform: rotateZ(25deg);
   background-image: url(../assets/orch-settings.png);
+}
+
+#downloads {
+  display: flex;
+  width: 70%;
+  margin: auto;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  top: 8rem;
+}
+#downloads .card {
+  width: 370px;
+  height: 600px;
+  background: linear-gradient(180deg, #3D6198 0%, rgba(105, 175, 239, 0) 97.82%);
+  border-radius: 2rem;
+}
+#downloads .card .comingSoon {
+  position: absolute;
+  top: 16rem;
+  margin-left: 5.5rem;
+  font-size: 2rem;
+  color: #B78AC1;
+}
+#downloads .card .content {
+  text-align: center;
+  display: grid;
+  align-items: center;
+  padding: 3rem;
+}
+#downloads .card .content h2 {
+  font-size: 30px;
+}
+#downloads .card .content .icon {
+  width: 130px;
+  margin: 3.3rem auto;
+}
+#downloads .card .content .properties p {
+  font-size: 20px;
+}
+#downloads .card .content .downloadBtn {
+  margin: 4rem auto;
+  padding: 0.5rem 1.5rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 5rem;
+  background-color: #D9D9D9;
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+#downloads .card .content .downloadable {
+  cursor: pointer;
+}
+#downloads .card .content .downloadable:hover {
+  transform: scale(1.1);
+}
+#downloads .primary {
+  transform: scale(1.2);
+}
+
+#docs {
+  display: flex;
+  margin: auto;
+  position: relative;
+  position: relative;
+  top: 5rem;
+}
+#docs #navBar {
+  float: left;
+  width: 11rem;
+  padding-left: 2rem;
+  border-right: 1px solid black;
+  margin-top: 0.5rem;
+}
+#docs #navBar ul li {
+  padding: 0.5rem;
+  list-style-type: none;
+  cursor: pointer;
+}
+#docs #navBar ul .selected {
+  font-weight: 600;
+  color: #B78AC1;
+}
+#docs .splitLine {
+  width: 2px;
+  height: 80vh;
+  background-color: white;
+  border-radius: 1rem;
+  float: right;
+}
+#docs .docContent {
+  padding: 0 4rem;
+  width: 60%;
+  margin-top: 4rem;
+  display: none;
+}
+#docs #_download {
+  display: block;
 }/*# sourceMappingURL=styles.css.map */

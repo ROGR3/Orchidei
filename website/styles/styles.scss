@@ -27,8 +27,11 @@ header {
   justify-content: space-between;
 
   #logo {
-    height: 10%;
+    height: 60px;
     position: absolute;
+    top: 0;
+    left: 150px;
+    cursor: pointer;
   }
 
   #right {
@@ -46,8 +49,12 @@ header {
         cursor: pointer;
         transition: .2s;
 
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+
         &:hover {
-          font-weight: bold;
           color: $pink-color;
         }
       }
@@ -66,6 +73,7 @@ header {
     width: 50%;
     padding-left: 8rem;
     padding-top: 10rem;
+    user-select: none;
 
     h1 {
       font-size: 9rem;
@@ -94,6 +102,7 @@ header {
         font-weight: bold;
         font-size: 3rem;
         color: $pink-color;
+        cursor: pointer;
       }
     }
 
@@ -124,6 +133,11 @@ header {
       border-radius: .5rem;
       position: absolute;
       left: 60rem;
+      transition: .2s ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
 
     #settingsImage {
@@ -140,5 +154,129 @@ header {
       transform: rotateZ(25deg);
       background-image: url(../assets/orch-settings.png);
     }
+  }
+}
+
+#downloads {
+  display: flex;
+  width: 70%;
+  margin: auto;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  top: 8rem;
+
+  .card {
+    width: 370px;
+    height: 600px;
+    background: linear-gradient(180deg, #3D6198 0%, rgba(105, 175, 239, 0) 97.82%);
+    border-radius: 2rem;
+
+    .comingSoon {
+      position: absolute;
+      top: 16rem;
+      margin-left: 5.5rem;
+      font-size: 2rem;
+      color: $pink-color;
+    }
+
+    .content {
+      text-align: center;
+      display: grid;
+      align-items: center;
+      padding: 3rem;
+
+
+
+      h2 {
+        font-size: 30px;
+      }
+
+      .icon {
+        width: 130px;
+        margin: 3.3rem auto;
+      }
+
+      .properties {
+        p {
+          font-size: 20px;
+        }
+      }
+
+      .downloadBtn {
+        margin: 4rem auto;
+        padding: .5rem 1.5rem;
+        width: fit-content;
+        border-radius: 5rem;
+        background-color: #D9D9D9;
+        color: black;
+        font-size: 25px;
+        font-weight: 600;
+        transition: .2s;
+
+      }
+
+      .downloadable {
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .primary {
+    transform: scale(1.2);
+
+  }
+
+}
+
+#docs {
+  display: flex;
+  margin: auto;
+  position: relative;
+  position: relative;
+  top: 5rem;
+
+  #navBar {
+    float: left;
+    width: 11rem;
+    padding-left: 2rem;
+    border-right: 1px solid black;
+    margin-top: .5rem;
+
+    ul {
+      li {
+        padding: .5rem;
+        list-style-type: none;
+        cursor: pointer;
+      }
+
+      .selected {
+        font-weight: 600;
+        color: $pink-color;
+      }
+    }
+  }
+
+  .splitLine {
+    width: 2px;
+    height: 80vh;
+    background-color: white;
+    border-radius: 1rem;
+    float: right;
+  }
+
+  .docContent {
+    padding: 0 4rem;
+    width: 60%;
+    margin-top: 4rem;
+    display: none;
+  }
+
+  #_download {
+    display: block;
   }
 }
