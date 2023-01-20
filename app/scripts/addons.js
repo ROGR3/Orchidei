@@ -34,3 +34,18 @@ function convertBytes(bytes) {
 
   return (bytes / Math.pow(1000, i)).toFixed(1) + ' ' + sizes[i];
 }
+
+
+async function createFileFromPath(_filePath) {
+  return new Promise((resolve, reject) => {
+    try {
+      fs.readFile(_filePath, (err, data) => {
+        if (err) throw err;
+        const file = new File([data], _filePath.split("/").pop());
+        resolve(file);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}

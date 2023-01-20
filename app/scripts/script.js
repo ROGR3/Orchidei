@@ -1,6 +1,5 @@
 const { ipcRenderer, shell } = require('electron');
 const remote = require('@electron/remote')
-const { dialog } = remote
 const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
@@ -1035,21 +1034,7 @@ function copyHashCode() {
   popMsgBox('Copied to clipboard', '45%', '45%');
 }
 
-async function createFileFromPath(_filePath) {
-  console.log(_filePath)
-  return new Promise((resolve, reject) => {
-    try {
-      const fs = require('fs');
-      fs.readFile(_filePath, (err, data) => {
-        if (err) throw err;
-        const file = new File([data], _filePath.split("/").pop());
-        resolve(file);
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
+
 
 async function startSharing(_filePath) {
   const file = await createFileFromPath(_filePath)
