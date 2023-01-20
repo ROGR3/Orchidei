@@ -2,6 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .bg {
@@ -507,20 +511,6 @@ body {
   outline: none;
 }
 
-input[type=file] {
-  opacity: 0;
-  display: none;
-}
-
-#uploadLable {
-  width: 80%;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  overflow-wrap: break-word;
-}
-
 #shareBtn {
   font-size: 16px;
   width: 25%;
@@ -528,7 +518,6 @@ input[type=file] {
   color: black;
   padding: 10px 15px;
   border-radius: 1rem;
-  display: none;
 }
 
 #hashInput {

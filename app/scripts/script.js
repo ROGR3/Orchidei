@@ -1,5 +1,6 @@
 const { ipcRenderer, shell } = require('electron');
 const remote = require('@electron/remote')
+const { dialog } = remote
 const { exec, spawn } = require('child_process');
 const { lookpath } = require('lookpath');
 const { ncp } = require('ncp');
@@ -16,7 +17,7 @@ const TEMP_FOLDER_FILE = __dirname + '/../temp/folder.txt'
 
 const SPACE_SYMBOL = 'idkssppccidk';
 const SPACE_REGEX = new RegExp(`${SPACE_SYMBOL}`, 'g');
-const HOME_DIR = os.homedir()
+const HOME_DIR = os.homedir().replace(/\\/g, "/")
 const MAX_SHARE_SIZE = 21_000_000
 
 const currentPathDiv = document.querySelector('.currentPath');
@@ -975,7 +976,6 @@ function shareFile(fileName) {
       : initImage(fileName, isFile(fileName) == 'file').replace('url(', '').replace(')', '');
 
   let fpName = fileName ? fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName : currentPath.split("/").pop();
-
   el.innerHTML = `
     <div class="smallHead">
     <img src="${imgURL}" width="20px"/>  <p> ${fpName} - Share file</p>
@@ -1000,10 +1000,7 @@ function shareFile(fileName) {
       </p>
       <div class="lineB"></div>
       <section id="beforeShare">
-        <input type="file" id="filesInput" onchange=handleShareSelectUI() >
-        <label for="filesInput" id="uploadLable">Click here to select File</label>               
-        <div class="lineB"></div>
-        <button id="shareBtn" onclick=startSharing()>Share</button>
+        <button id="shareBtn" onclick=startSharing("${currentPath}/${fileName}")>Share</button>
       </section>
       <section id="afterShare">
         <p>File shared succesfully</p>
@@ -1038,27 +1035,32 @@ function copyHashCode() {
   popMsgBox('Copied to clipboard', '45%', '45%');
 }
 
-function handleShareSelectUI() {
-  let selectedFileName = document.getElementById('filesInput').value
-  if (!selectedFileName) {
-    document.getElementById('uploadLable').innerText = "Click here to select File";
-    document.getElementById('shareBtn').style.display = "none";
-  } else {
-    document.getElementById('uploadLable').innerText = selectedFileName;
-    document.getElementById('shareBtn').style.display = "inline-block";
-  }
-
+async function createFileFromPath(_filePath) {
+  console.log(_filePath)
+  return new Promise((resolve, reject) => {
+    try {
+      const fs = require('fs');
+      fs.readFile(_filePath, (err, data) => {
+        if (err) throw err;
+        const file = new File([data], _filePath.split("/").pop());
+        resolve(file);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
-async function startSharing() {
-  const file = document.getElementById("filesInput").files
-  if (file[0].size > MAX_SHARE_SIZE) {
+async function startSharing(_filePath) {
+  const file = await createFileFromPath(_filePath)
+  console.log(file)
+  if (file.size > MAX_SHARE_SIZE) {
     document.getElementById("beforeShare").innerHTML += "<p>Your file is too big. Max file limit is " + convertBytes(MAX_SHARE_SIZE) + "</p>"
     return
   }
   const formData = new FormData()
   let sel = document.getElementById("downloadSelect")
-  formData.append("file", file[0]);
+  formData.append("file", file);
   formData.append("maxDownloads", sel.value);
   const URL = process.env.SERVER_URL
   const UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
@@ -1067,7 +1069,6 @@ async function startSharing() {
     body: formData
   }).then(res => res.json())
 
-  document.getElementById("beforeShare").style.display = "none"
   document.getElementById("afterShare").style.display = "block"
   document.getElementById("responseHash").innerText = response.hash
   console.log(response)
