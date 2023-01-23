@@ -1,9 +1,14 @@
 # Orchidei
 
+# Visit [website](https://orchidei.netlify.app/)
+
 ### Modern file manager
 
-###### Orchidei is in beta version!
+Orchidei is modern file manager that allows you to share files across multiple devices.
 
-## Visit [website](https://orchidei.netlify.app/)
 
+
+Folders preview
 ![Orchidei Preview](./preview.png)
+
+### Orchidei is still in beta version!
