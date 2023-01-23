@@ -131,6 +131,8 @@ app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
 
 app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
   let fileDB = readDB(DB_FILE)
+  if (!fileDB.ORCHIDEI)
+    fileDB.ORCHIDEI = 0
   res.send({
     dowloads: fileDB.ORCHIDEI
   })

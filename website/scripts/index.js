@@ -18,3 +18,9 @@ async function addToDownloads() {
   const response = await fetch("https://faithful-leggings-toad.cyclic.app/download-info/").then(res => res.json())
   console.log(response)
 }
+
+window.onload = async () => {
+  const response = await fetch("https://faithful-leggings-toad.cyclic.app/read-download-info/").then(res => res.json())
+  console.log(response)
+  document.getElementById("downloadCount").innerText = response.dowloads
+}
