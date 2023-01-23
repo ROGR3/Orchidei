@@ -11,7 +11,7 @@ const SERVER_DOWNLOAD_LINK = process.env.SERVER_DOWNLOAD_LINK
 const SERVER_DINFO_PATH = process.env.SERVER_DINFO_PATH
 const SERVER_UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
 const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
-const DB_FILE = __dirname + process.env.DB_FILE
+const DB_FILE = process.env.DB_FILE
 const PORT = process.env.PORT
 
 const MAX_SHARE_SIZE = 21_000_000

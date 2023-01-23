@@ -15,6 +15,6 @@ function downloadWindows() {
 }
 
 async function addToDownloads() {
-  const response = await fetch("http://localhost:3000/download-info/").then(res => res.json())
+  const response = await fetch("https://faithful-leggings-toad.cyclic.app/download-info/").then(res => res.json())
   console.log(response)
 }
