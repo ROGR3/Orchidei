@@ -7,8 +7,8 @@ const routes = {
 };
 async function handleLocation() {
   let lis = document.querySelectorAll(".navli")
-
   let path = window.location.hash.replace("#", "") || "home";
+  if (path == "home") getDownloadStats()
   let route = routes[path] || routes[404];
   let html = await fetch(route).then((data) => data.text());
   document.getElementById("container").innerHTML = html;

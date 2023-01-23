@@ -147,6 +147,11 @@ app.listen(PORT, () => {
   console.log(`App is listening on port ${PORT}.`)
 });
 
+app.get("/test/", (req, res) => {
+  let fileDB = readDB(DB_FILE)
+  res.send(fileDB)
+})
+
 
 function generateHash(file) {
   let time = new Date().getTime()
