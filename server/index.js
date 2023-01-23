@@ -8,9 +8,10 @@ const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
 const SERVER_INFO_LINK = process.env.SERVER_INFO_LINK
 const SERVER_DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
 const SERVER_DOWNLOAD_LINK = process.env.SERVER_DOWNLOAD_LINK
+const SERVER_DINFO_PATH = process.env.SERVER_DINFO_PATH
 const SERVER_UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
 const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
-const DB_FILE = process.env.DB_FILE
+const DB_FILE = __dirname + process.env.DB_FILE
 const PORT = process.env.PORT
 
 const MAX_SHARE_SIZE = 21_000_000
@@ -35,7 +36,7 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       let maxDownloads = req.body.maxDownloads
       let uploadedFiles = req.files;
       let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
-      if (uploadedFile.size >= 21_000_000)
+      if (uploadedFile.size >= MAX_SHARE_SIZE)
         return
 
       let hashedFile = generateHash(uploadedFile)
@@ -116,8 +117,24 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
   }
 })
 
+// app.get(SERVER_DINFO_PATH, async (req, res) => {
+//   let fileDB = readDB(DB_FILE)
+//   console.log(fileDB)
+//   if (!fileDB.ORCHIDEI)
+//     fileDB.ORCHIDEI = 0
+//   fileDB.ORCHIDEI++
+//   writeDB(DB_FILE, fileDB)
+//   res.send({
+//     dowloads: fileDB.ORCHIDEI
+//   })
+// })
+
 app.listen(PORT, () => {
-  fs.writeFileSync(DB_FILE, "{}");
+  try {
+    fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
+  } catch (er) {
+    console.log("File exists")
+  }
   console.log(`App is listening on port ${PORT}.`)
 });
 
