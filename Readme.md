@@ -2,6 +2,8 @@
 
 ### Modern file manager
 
-![Orchidei Preview](./preview.png)
+###### Orchidei is in beta version!
 
-###### Orchidei is not deployed yet!
+## Visit [website](https://orchidei.netlify.app/)
+
+![Orchidei Preview](./preview.png)

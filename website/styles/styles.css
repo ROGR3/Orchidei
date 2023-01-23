@@ -244,6 +244,9 @@ header #right ul .selected {
 #docs .docContent ol li {
   padding: 0.2rem;
 }
+#docs .docContent a {
+  color: inherit;
+}
 #docs #_about {
   display: block;
 }/*# sourceMappingURL=styles.css.map */
