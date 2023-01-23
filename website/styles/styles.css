@@ -231,6 +231,19 @@ header #right ul .selected {
   margin-top: 4rem;
   display: none;
 }
+#docs .docContent p {
+  font-size: 1.2rem;
+  margin: 1.4rem 0;
+}
+#docs .docContent ul,
+#docs .docContent ol {
+  font-size: 1.2rem;
+  margin-left: 3rem;
+}
+#docs .docContent ul li,
+#docs .docContent ol li {
+  padding: 0.2rem;
+}
 #docs #_about {
   display: block;
 }/*# sourceMappingURL=styles.css.map */
