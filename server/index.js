@@ -8,7 +8,8 @@ const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
 const SERVER_INFO_LINK = process.env.SERVER_INFO_LINK
 const SERVER_DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
 const SERVER_DOWNLOAD_LINK = process.env.SERVER_DOWNLOAD_LINK
-const SERVER_DINFO_PATH = process.env.SERVER_DINFO_PATH
+const SERVER_ADD_DOWNLOAD_INFO = process.env.SERVER_ADD_DOWNLOAD_INFO
+const SERVER_READ_DOWNLOAD_INFO = process.env.SERVER_READ_DOWNLOAD_INFO
 const SERVER_UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
 const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
 const DB_FILE = process.env.DB_FILE
@@ -117,13 +118,19 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
   }
 })
 
-app.get(SERVER_DINFO_PATH, async (req, res) => {
+app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
   let fileDB = readDB(DB_FILE)
-  console.log(fileDB)
   if (!fileDB.ORCHIDEI)
     fileDB.ORCHIDEI = 0
   fileDB.ORCHIDEI++
   writeDB(DB_FILE, fileDB)
+  res.send({
+    dowloads: fileDB.ORCHIDEI
+  })
+})
+
+app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
+  let fileDB = readDB(DB_FILE)
   res.send({
     dowloads: fileDB.ORCHIDEI
   })
