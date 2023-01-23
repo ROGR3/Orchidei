@@ -118,23 +118,23 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
   }
 })
 
-app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
-  let fileDB = readDB(DB_FILE)
-  if (!fileDB.ORCHIDEI)
-    fileDB.ORCHIDEI = 0
-  fileDB.ORCHIDEI++
-  writeDB(DB_FILE, fileDB)
-  res.send({
-    dowloads: fileDB.ORCHIDEI
-  })
-})
+// app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
+//   let fileDB = readDB(DB_FILE)
+//   if (!fileDB.ORCHIDEI)
+//     fileDB.ORCHIDEI = 0
+//   fileDB.ORCHIDEI++
+//   writeDB(DB_FILE, fileDB)
+//   res.send({
+//     dowloads: fileDB.ORCHIDEI
+//   })
+// })
 
-app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
-  let fileDB = readDB(DB_FILE)
-  res.send({
-    dowloads: fileDB.ORCHIDEI
-  })
-})
+// app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
+//   let fileDB = readDB(DB_FILE)
+//   res.send({
+//     dowloads: fileDB.ORCHIDEI
+//   })
+// })
 
 app.listen(PORT, () => {
   try {
