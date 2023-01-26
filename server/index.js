@@ -9,7 +9,7 @@ console.log(fs)
 console.log(fs.writeFileSync)
 console.log(JSON.stringify(fs.writeFileSync))
 console.log(fs.writeFileSync("test.txt"))
-console.log(fs.readDirSync("."))
+console.log(fs.readdirSync("."))
 console.log(process.env.CYCLIC_BUCKET_NAME)
 
 const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
