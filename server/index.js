@@ -31,22 +31,25 @@ app.post(SERVER_UPLOAD_PATH, async (req, res) => {
   let fileContent = new Buffer(req.body.fileContent)
   let fileName = req.body.fileName
   let maxDownloads = req.body.maxDownloads
+  let size = fileContent.toString().length
   let hash = generateHash()
-  console.log(hash)
+
+  if (size >= MAX_SHARE_SIZE) return
+
   fs.writeFileSync(hash, fileContent)
 
   let fileObject = readDB()
 
   fileObject[hash] = {
     name: fileName,
-    size: fileContent.toString().length,
     downloads: 0,
+    size,
     maxDownloads
   }
 
   writeDB(fileObject)
-  // Response successfully 
-  // Returned hash to display copiable link
+
+
   res.send({
     status: true,
     message: 'File is uploaded',
