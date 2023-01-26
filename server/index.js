@@ -82,13 +82,13 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
     // Get File hash from URL
     let fileHash = req.url.replace(SERVER_INFO_PATH, "")
     let fileDB = readDB(DB_FILE)
+    console.log(fileDB[fileHash])
 
     // Increase the download number in coresponding file
     fileDB[fileHash].downloads++
 
     const fileContent = fs.readFileSync(fileHash)
     console.log(fileContent)
-    console.log(fileDB[fileHash])
 
     writeDB(DB_FILE, fileDB)
 
@@ -123,6 +123,11 @@ app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
   res.send({
     dowloads: fileDB.ORCHIDEI
   })
+})
+
+app.get("/test/", (req, res) => {
+  let fileDB = readDB(DB_FILE)
+  res.send(fileDB)
 })
 
 app.listen(PORT, () => {
