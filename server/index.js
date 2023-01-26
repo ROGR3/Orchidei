@@ -5,8 +5,10 @@ const fileUpload = require('express-fileupload');
 require("dotenv").config()
 
 const fs = require('@cyclic.sh/s3fs')(process.env.CYCLIC_BUCKET_NAME)
-console.log(fs.readFileSync(__filename))
-console.log(fs.readFileSync(__filename))
+console.log(fs)
+console.log(fs.writeFileSync)
+console.log(JSON.stringify(fs.writeFileSync))
+console.log(fs.writeFileSync("test.txt"))
 console.log(process.env.CYCLIC_BUCKET_NAME)
 
 const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
