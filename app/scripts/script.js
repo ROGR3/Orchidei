@@ -958,7 +958,8 @@ async function downloadFile(_dirPath) {
   console.log(_dirPath + "/" + response.fileName)
   let fileContent = new Buffer(response.fileContent)
   fs.writeFileSync(_dirPath + "/" + response.fileName, fileContent)
-  console.log(response)
+  console.log("Downloaded: " + response)
+  document.querySelector(".menus").click()
 }
 
 function shareFile(fileName) {
