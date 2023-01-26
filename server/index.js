@@ -86,7 +86,7 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 
     // Increase the download number in coresponding file
     fileDB[fileHash].downloads++
-    console.log(fs.readdirSync())
+    console.log(fs.readdirSync("."))
     const fileContent = fs.readFileSync(fileHash, "utf-8")
     console.log(fileContent)
 
@@ -125,18 +125,23 @@ app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
   })
 })
 
-app.get("/test/", (req, res) => {
+app.get("/db-test/", (req, res) => {
   let fileDB = readDB(DB_FILE)
   res.send(fileDB)
 })
 
+app.get("/folder-test/", (req, res) => {
+  res.send(fs.readdirSync("."))
+})
+
+
 app.listen(PORT, () => {
-  try {
-    console.log("Created file because didnt exists")
-    fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
-  } catch (er) {
-    console.log("File exists: " + er)
-  }
+  // try {
+  //   console.log("Created file because didnt exists")
+  //   fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
+  // } catch (er) {
+  //   console.log("File exists: " + er)
+  // }
   console.log(`App is listening on port ${PORT}.`)
 });
 
