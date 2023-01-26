@@ -19,7 +19,7 @@ const SERVER_DOWNLOAD_LINK = process.env.SERVER_DOWNLOAD_LINK
 const SERVER_ADD_DOWNLOAD_INFO = process.env.SERVER_ADD_DOWNLOAD_INFO
 const SERVER_READ_DOWNLOAD_INFO = process.env.SERVER_READ_DOWNLOAD_INFO
 const SERVER_UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
-const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
+// const UPLOAD_FOLDER = process.env.UPLOAD_FOLDER
 const DB_FILE = process.env.DB_FILE
 const PORT = process.env.PORT
 
@@ -61,7 +61,7 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
       }
 
       // Dowload uploaded file using mv function, coming from 'express-fileupload'
-      uploadedFile.mv(UPLOAD_FOLDER + hashedFile, (err) => {
+      uploadedFile.mv(hashedFile, (err) => {
         if (err)
           console.log("error: " + err)
       });
@@ -88,11 +88,11 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
     let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
     let fileObject = readDB(DB_FILE)
 
-    res.download(UPLOAD_FOLDER + fileHash, (err) => {
+    res.download(fileHash, (err) => {
       if (err)
         console.log("Failed to download. Error: " + err)
       else {
-        removeFile(UPLOAD_FOLDER + fileHash)
+        removeFile(fileHash)
         delete fileObject[fileHash]
       }
     })
