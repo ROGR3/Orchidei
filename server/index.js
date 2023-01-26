@@ -148,7 +148,7 @@ app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
 
 app.listen(PORT, () => {
   try {
-    console.log("Created file because didnt exists + ", fs.readFileSync(_path, "utf-8"))
+    console.log("Created file because didnt exists")
     fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
   } catch (er) {
     console.log("File exists: " + er)
