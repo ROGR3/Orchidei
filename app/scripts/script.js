@@ -1041,10 +1041,10 @@ async function startSharing(_filePath) {
   let fileName = file.name
   const response = await fetch(URL + UPLOAD_PATH, {
     method: "POST",
-    body: {
+    body: JSON.stringify({
       fileContent,
       fileName
-    }
+    })
   }).then(res => res.json())
 
   document.getElementById("afterShare").style.display = "block"
