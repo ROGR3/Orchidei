@@ -65,6 +65,10 @@ app.post(SERVER_DOWNLOAD_PATH, async (req, res) => {
   let fileName = fileDB[fileHash].name
 
   fileDB[fileHash].downloads++
+  if (fileDB[fileHash].downloads >= fileDB[fileHash].maxDownloads) {
+    removeFile(fileHash)
+    delete fileDB[fileHash]
+  }
   writeDB(fileDB)
   res.send({
     status: true,
