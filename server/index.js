@@ -23,7 +23,7 @@ const MAX_SHARE_SIZE = 21_000_000
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
 
 app.post(SERVER_UPLOAD_PATH, async (req, res) => {
   console.log("req.body: " + req.body)
