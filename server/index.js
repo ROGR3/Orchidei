@@ -9,6 +9,7 @@ console.log(fs)
 console.log(fs.writeFileSync)
 console.log(JSON.stringify(fs.writeFileSync))
 console.log(fs.writeFileSync("test.txt"))
+console.log(fs.readDirSync("."))
 console.log(process.env.CYCLIC_BUCKET_NAME)
 
 const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
@@ -150,7 +151,7 @@ app.listen(PORT, () => {
     console.log("Created file because didnt exists + ", fs.readFileSync(_path, "utf-8"))
     fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
   } catch (er) {
-    console.log("File exists")
+    console.log("File exists: " + er)
   }
   console.log(`App is listening on port ${PORT}.`)
 });
