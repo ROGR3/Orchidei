@@ -5,12 +5,6 @@ const fileUpload = require('express-fileupload');
 require("dotenv").config()
 
 const fs = require('@cyclic.sh/s3fs')(process.env.CYCLIC_BUCKET_NAME)
-console.log(fs)
-console.log(fs.writeFileSync)
-console.log(JSON.stringify(fs.writeFileSync))
-console.log(fs.writeFileSync("test.txt"))
-console.log(fs.readdirSync("."))
-console.log(process.env.CYCLIC_BUCKET_NAME)
 
 const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
 const SERVER_INFO_LINK = process.env.SERVER_INFO_LINK
@@ -88,7 +82,7 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
     let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
     let fileObject = readDB(DB_FILE)
 
-    res.download(fileHash, (err) => {
+    res.download("/" + fileHash, (err) => {
       if (err)
         console.log("Failed to download. Error: " + err)
       else {
@@ -155,11 +149,6 @@ app.listen(PORT, () => {
   }
   console.log(`App is listening on port ${PORT}.`)
 });
-
-app.get("/test/", (req, res) => {
-  let fileDB = readDB(DB_FILE)
-  res.send(fileDB)
-})
 
 
 function generateHash(file) {
