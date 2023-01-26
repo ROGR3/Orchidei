@@ -921,7 +921,7 @@ function recieveFile(fileName) {
 
       </div>
       <div class="lineB"></div>
-      <button id="downloadBtn" onclick="downloadFile()">Download</button>
+      <button id="downloadBtn" onclick="downloadFile('${currentPath}')">Download</button>
     </div>
   `;
 
@@ -942,14 +942,23 @@ function recieveFile(fileName) {
   }, 500);
 }
 
-async function downloadFile() {
+async function downloadFile(_dirPath) {
   let _hash = document.getElementById("hashInput").value
   const URL = process.env.SERVER_URL
   const INFO_PATH = process.env.SERVER_INFO_PATH
-  const DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
 
-  let fileInfo = await fetch(URL + INFO_PATH + _hash).then(res => res.json())
-  console.log(fileInfo)
+  const response = await fetch(URL + INFO_PATH, {
+    method: "POST",
+    body: JSON.stringify({
+      hash: _hash
+    }),
+    headers: { "Content-Type": "application/json" }
+  }).then(res => res.json())
+  console.log(response)
+  console.log(_dirPath + "/" + response.fileName)
+  let fileContent = new Buffer(response.fileContent)
+  fs.writeFileSync(_dirPath + "/" + response.fileName, fileContent)
+  console.log(response)
 }
 
 function shareFile(fileName) {
@@ -986,7 +995,7 @@ function shareFile(fileName) {
       </p>
       <div class="lineB"></div>
       <section id="beforeShare">
-        <button id="shareBtn" onclick=startSharing("${currentPath}/${fileName}")>Share</button>
+        <button id="shareBtn" onclick="startSharing('${currentPath}', '${fileName}')">Share</button>
       </section>
       <section id="afterShare">
         <p>File shared succesfully</p>
@@ -1023,27 +1032,26 @@ function copyHashCode() {
 
 
 
-async function startSharing(_filePath) {
-  const file = await createFileFromPath(_filePath)
-  console.log(file)
-  if (file.size > MAX_SHARE_SIZE) {
-    document.getElementById("beforeShare").innerHTML += "<p>Your file is too big. Max file limit is " + convertBytes(MAX_SHARE_SIZE) + "</p>"
-    return
-  }
-  const formData = new FormData()
-  let sel = document.getElementById("downloadSelect")
-  formData.append("file", file);
-  formData.append("maxDownloads", sel.value);
+async function startSharing(_dirPath, _fileName) {
+
   const URL = process.env.SERVER_URL
   const UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
 
-  let fileContent = fs.readFileSync(_filePath)
-  let fileName = file.name
+  let maxDownloads = document.getElementById("downloadSelect").value
+  let fileContent = fs.readFileSync(_dirPath + "/" + _fileName)
+  let fileName = _fileName
+
+  if (fileContent.toString().length > MAX_SHARE_SIZE) {
+    document.getElementById("beforeShare").innerHTML += "<p>Your file is too big. Max file limit is " + convertBytes(MAX_SHARE_SIZE) + "</p>"
+    return
+  }
+
   const response = await fetch(URL + UPLOAD_PATH, {
     method: "POST",
     body: JSON.stringify({
       fileContent,
-      fileName
+      fileName,
+      maxDownloads
     }),
     headers: { "Content-Type": "application/json" }
   }).then(res => res.json())
