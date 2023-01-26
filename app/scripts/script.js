@@ -1044,7 +1044,8 @@ async function startSharing(_filePath) {
     body: JSON.stringify({
       fileContent,
       fileName
-    })
+    }),
+    headers: { "Content-Type": "application/json" }
   }).then(res => res.json())
 
   document.getElementById("afterShare").style.display = "block"

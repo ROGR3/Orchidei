@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser')
 
 require("dotenv").config()
 
@@ -21,8 +22,8 @@ const MAX_SHARE_SIZE = 21_000_000
 
 
 const app = express();
-
 app.use(cors());
+app.use(bodyParser.json())
 
 app.post(SERVER_UPLOAD_PATH, async (req, res) => {
   console.log("req.body: " + req.body)
