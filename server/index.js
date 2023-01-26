@@ -82,14 +82,23 @@ app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
     let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
     let fileObject = readDB(DB_FILE)
 
-    res.download("/" + fileHash, (err) => {
-      if (err)
-        console.log("Failed to download. Error: " + err)
-      else {
-        removeFile(fileHash)
-        delete fileObject[fileHash]
-      }
-    })
+
+    const fileContent = fs.readFileSync(fileHash)
+    console.log(fileContent)
+    console.log(fileObject)
+    res.send({
+      status: true,
+      message: 'File sent',
+      fileContent
+    });
+    // res.download("/" + fileHash, (err) => {
+    //   if (err)
+    //     console.log("Failed to download. Error: " + err)
+    //   else {
+    //     removeFile(fileHash)
+    //     delete fileObject[fileHash]
+    //   }
+    // })
 
   }
   catch (err) {
