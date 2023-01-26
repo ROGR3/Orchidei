@@ -22,60 +22,60 @@ const MAX_SHARE_SIZE = 21_000_000
 
 const app = express();
 
-
 app.use(cors());
 
-app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
-  console.log(req.body.fileContent)
-  console.log(req.body.fileName)
-  try {
-    if (!req.files) {
-      console.log("failed")
-      console.log("No files recieved")
-      res.send({
-        status: false,
-        message: 'No file uploaded',
-        hash: "File upload failed"
-      });
-    } else {
-      let maxDownloads = req.body.maxDownloads
-      let uploadedFiles = req.files;
-      let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
-      if (uploadedFile.size >= MAX_SHARE_SIZE)
-        return
+app.post(SERVER_UPLOAD_PATH, async (req, res) => {
+  console.log("req.body: " + req.body)
+  console.log("req.body.fileContent: " + req.body.fileContent)
+  console.log("req.body.fileName: " + req.body.fileName)
+  // try {
+  //   if (!req.files) {
+  //     console.log("failed")
+  //     console.log("No files recieved")
+  //     res.send({
+  //       status: false,
+  //       message: 'No file uploaded',
+  //       hash: "File upload failed"
+  //     });
+  //   } else {
+  //     let maxDownloads = req.body.maxDownloads
+  //     let uploadedFiles = req.files;
+  //     let uploadedFile = uploadedFiles[Object.keys(uploadedFiles)[0]]
+  //     if (uploadedFile.size >= MAX_SHARE_SIZE)
+  //       return
 
-      let hashedFile = generateHash(uploadedFile)
-      let fileObject = readDB(DB_FILE)
+  //     let hashedFile = generateHash(uploadedFile)
+  //     let fileObject = readDB(DB_FILE)
 
-      // Initialize object structure
-      fileObject[hashedFile] = {
-        name: uploadedFile.name,
-        size: uploadedFile.size,
-        type: uploadedFile.mimetype,
-        downloads: 0,
-        maxDownloads
-      }
-      console.log(uploadedFile)
-      // Dowload uploaded file using mv function, coming from 'express-fileupload'
-      uploadedFile.mv(hashedFile, (err) => {
-        if (err)
-          console.log("error: " + err)
-      });
+  //     // Initialize object structure
+  //     fileObject[hashedFile] = {
+  //       name: uploadedFile.name,
+  //       size: uploadedFile.size,
+  //       type: uploadedFile.mimetype,
+  //       downloads: 0,
+  //       maxDownloads
+  //     }
+  //     console.log(uploadedFile)
+  //     // Dowload uploaded file using mv function, coming from 'express-fileupload'
+  //     uploadedFile.mv(hashedFile, (err) => {
+  //       if (err)
+  //         console.log("error: " + err)
+  //     });
 
-      writeDB(DB_FILE, fileObject)
+  //     writeDB(DB_FILE, fileObject)
 
-      // Response successfully 
-      // Returned hash to display copiable link
-      res.send({
-        status: true,
-        message: 'File is uploaded',
-        hash: hashedFile
-      });
-    }
-  } catch (err) {
-    console.log("Unable to upload. Error: " + err)
-    res.status(500).send(err);
-  }
+  //     // Response successfully 
+  //     // Returned hash to display copiable link
+  //     res.send({
+  //       status: true,
+  //       message: 'File is uploaded',
+  //       hash: hashedFile
+  //     });
+  //   }
+  // } catch (err) {
+  //   console.log("Unable to upload. Error: " + err)
+  //   res.status(500).send(err);
+  // }
 });
 
 
