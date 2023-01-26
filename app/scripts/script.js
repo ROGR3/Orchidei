@@ -949,20 +949,7 @@ async function downloadFile() {
   const DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
 
   let fileInfo = await fetch(URL + INFO_PATH + _hash).then(res => res.json())
-  fetch(URL + DOWNLOAD_PATH + _hash)
-    .then(resp => resp.blob())
-    .then(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = fileInfo.file.name;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove()
-    })
-    .catch((err) => console.log('Error: ' + err));
+  console.log(fileInfo)
 }
 
 function shareFile(fileName) {

@@ -76,35 +76,6 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
   }
 });
 
-app.get(SERVER_DOWNLOAD_LINK, async (req, res) => {
-  try {
-    // Get File hash from URL
-    let fileHash = req.url.replace(SERVER_DOWNLOAD_PATH, "")
-    let fileObject = readDB(DB_FILE)
-
-
-    const fileContent = fs.readFileSync(fileHash)
-    console.log(fileContent)
-    console.log(fileObject)
-    res.send({
-      status: true,
-      message: 'File sent',
-      fileContent
-    });
-    // res.download("/" + fileHash, (err) => {
-    //   if (err)
-    //     console.log("Failed to download. Error: " + err)
-    //   else {
-    //     removeFile(fileHash)
-    //     delete fileObject[fileHash]
-    //   }
-    // })
-
-  }
-  catch (err) {
-    console.log("Catched error while downloading. Error: " + err)
-  }
-})
 
 app.get(SERVER_INFO_LINK, async (req, res) => {
   try {
@@ -115,13 +86,18 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
     // Increase the download number in coresponding file
     fileDB[fileHash].downloads++
 
+    const fileContent = fs.readFileSync(fileHash)
+    console.log(fileContent)
+    console.log(fileDB[fileHash])
+
     writeDB(DB_FILE, fileDB)
 
     // Response successfully 
     res.send({
       status: true,
       message: "File found",
-      file: fileDB[fileHash]
+      file: fileDB[fileHash],
+      fileContent
     })
   }
   catch (err) {
