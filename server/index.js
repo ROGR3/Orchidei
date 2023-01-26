@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const fs = require("fs")
 
 require("dotenv").config()
+const fs = require('@cyclic.sh/s3fs/promises')(process.env.CYCLIC_BUCKET_NAME || 0)
 const SERVER_INFO_PATH = process.env.SERVER_INFO_PATH
 const SERVER_INFO_LINK = process.env.SERVER_INFO_LINK
 const SERVER_DOWNLOAD_PATH = process.env.SERVER_DOWNLOAD_PATH
