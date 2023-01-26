@@ -86,8 +86,8 @@ app.get(SERVER_INFO_LINK, async (req, res) => {
 
     // Increase the download number in coresponding file
     fileDB[fileHash].downloads++
-
-    const fileContent = fs.readFileSync(fileHash)
+    console.log(fs.readdirSync())
+    const fileContent = fs.readFileSync(fileHash, "utf-8")
     console.log(fileContent)
 
     writeDB(DB_FILE, fileDB)
