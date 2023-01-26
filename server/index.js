@@ -26,6 +26,8 @@ const app = express();
 app.use(cors());
 
 app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req, res) => {
+  console.log(req.body.fileContent)
+  console.log(req.body.fileName)
   try {
     if (!req.files) {
       console.log("failed")
@@ -53,7 +55,7 @@ app.post(SERVER_UPLOAD_PATH, fileUpload({ createParentPath: true }), async (req,
         downloads: 0,
         maxDownloads
       }
-
+      console.log(uploadedFile)
       // Dowload uploaded file using mv function, coming from 'express-fileupload'
       uploadedFile.mv(hashedFile, (err) => {
         if (err)

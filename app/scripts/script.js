@@ -1036,9 +1036,15 @@ async function startSharing(_filePath) {
   formData.append("maxDownloads", sel.value);
   const URL = process.env.SERVER_URL
   const UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
+
+  let fileContent = fs.readFileSync(_filePath)
+  let fileName = file.name
   const response = await fetch(URL + UPLOAD_PATH, {
     method: "POST",
-    body: formData
+    body: {
+      fileContent,
+      fileName
+    }
   }).then(res => res.json())
 
   document.getElementById("afterShare").style.display = "block"
