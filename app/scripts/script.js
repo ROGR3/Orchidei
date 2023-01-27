@@ -7,6 +7,8 @@ const trashCommand = require('trash');
 const fs = require('fs');
 const os = require("os")
 
+const crypto = require("crypto")
+
 require("dotenv").config()
 
 let { max_ls_length, start_path, safe_mode } = require('../setting.json');
@@ -960,6 +962,7 @@ async function downloadFile(_dirPath) {
   let decrypted = decryptBuffer(fileContent, process.env.ALGORITHM, process.env.PASSWORD)
   fs.writeFileSync(_dirPath + "/" + response.fileName, decrypted)
   console.log("Downloaded: " + response)
+  handleChangePath()
   document.querySelector(".menus").click()
 }
 
@@ -1059,6 +1062,7 @@ async function startSharing(_dirPath, _fileName) {
     headers: { "Content-Type": "application/json" }
   }).then(res => res.json())
 
+  document.getElementById("beforeShare").style.display = "none"
   document.getElementById("afterShare").style.display = "block"
   document.getElementById("responseHash").innerText = response.hash
   console.log(response)
