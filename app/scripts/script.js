@@ -957,7 +957,8 @@ async function downloadFile(_dirPath) {
   console.log(response)
   console.log(_dirPath + "/" + response.fileName)
   let fileContent = new Buffer(response.fileContent)
-  fs.writeFileSync(_dirPath + "/" + response.fileName, fileContent)
+  let decrypted = decryptBuffer(fileContent, process.env.ALGORITHM, process.env.PASSWORD)
+  fs.writeFileSync(_dirPath + "/" + response.fileName, decrypted)
   console.log("Downloaded: " + response)
   document.querySelector(".menus").click()
 }
@@ -1039,7 +1040,8 @@ async function startSharing(_dirPath, _fileName) {
   const UPLOAD_PATH = process.env.SERVER_UPLOAD_PATH
 
   let maxDownloads = document.getElementById("downloadSelect").value
-  let fileContent = fs.readFileSync(_dirPath + "/" + _fileName)
+  let fileContent = new Buffer(fs.readFileSync(_dirPath + "/" + _fileName))
+  let encrypted = encryptBuffer(fileContent, process.env.ALGORITHM, process.env.PASSWORD)
   let fileName = _fileName
 
   if (fileContent.toString().length > MAX_SHARE_SIZE) {
@@ -1050,7 +1052,7 @@ async function startSharing(_dirPath, _fileName) {
   const response = await fetch(URL + UPLOAD_PATH, {
     method: "POST",
     body: JSON.stringify({
-      fileContent,
+      fileContent: encrypted,
       fileName,
       maxDownloads
     }),

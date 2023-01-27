@@ -49,3 +49,16 @@ async function createFileFromPath(_filePath) {
     }
   });
 }
+
+
+function encryptBuffer(buffer, algorithm, password) {
+  let cipher = crypto.createCipher(algorithm, password)
+  let crypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
+  return crypted;
+}
+
+function decryptBuffer(buffer, algorithm, password) {
+  let decipher = crypto.createDecipher(algorithm, password)
+  let dec = Buffer.concat([decipher.update(buffer), decipher.final()]);
+  return dec;
+}
