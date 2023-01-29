@@ -97,12 +97,12 @@ app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
 
 
 app.listen(PORT, () => {
-  try {
-    console.log("Created file because didnt exists")
-    fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
-  } catch (er) {
-    console.log("File exists: " + er)
-  }
+  // try {
+  //   console.log("Created file because didnt exists")
+  //   fs.writeFileSync(DB_FILE, "{}", { flag: 'wx' });
+  // } catch (er) {
+  //   console.log("File exists: " + er)
+  // }
   console.log(`App is listening on port ${PORT}.`)
 });
 
