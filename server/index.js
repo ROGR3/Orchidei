@@ -101,14 +101,6 @@ app.get(SERVER_READ_DOWNLOAD_INFO, async (req, res) => {
   })
 })
 
-app.get("/db-test/", (req, res) => {
-  let fileDB = readDB()
-  res.send(fileDB)
-})
-
-app.get("/folder-test/", (req, res) => {
-  res.send(fs.readdirSync("."))
-})
 
 
 app.listen(PORT, () => {
