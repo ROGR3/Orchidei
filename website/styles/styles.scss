@@ -67,6 +67,7 @@ header {
   }
 }
 
+
 #container {
   #left {
     float: left;
@@ -85,9 +86,7 @@ header {
       font-size: 1.6rem;
     }
 
-    .pinkText {
-      color: $pink-color;
-    }
+
 
     #downloadDiv {
       padding-top: 25rem;
@@ -299,4 +298,8 @@ header {
   #_about {
     display: block;
   }
+}
+
+.pinkText {
+  color: $pink-color;
 }

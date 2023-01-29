@@ -73,9 +73,6 @@ header #right ul .selected {
 #container #left p {
   font-size: 1.6rem;
 }
-#container #left .pinkText {
-  color: #B78AC1;
-}
 #container #left #downloadDiv {
   padding-top: 25rem;
   font-weight: bold;
@@ -249,4 +246,8 @@ header #right ul .selected {
 }
 #docs #_about {
   display: block;
+}
+
+.pinkText {
+  color: #B78AC1;
 }/*# sourceMappingURL=styles.css.map */
