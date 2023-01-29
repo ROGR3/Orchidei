@@ -82,11 +82,14 @@ app.post(SERVER_DOWNLOAD_PATH, async (req, res) => {
 })
 
 app.get(SERVER_ADD_DOWNLOAD_INFO, async (req, res) => {
-  console.log(req.query.isDownloading)
+
   let fileDB = readDB()
   if (!fileDB.ORCHIDEI)
     fileDB.ORCHIDEI = 0
-  if (req.query.isDownloading)
+  console.log("req.query.isDownloading" + req.query.isDownloading)
+  let isDownlodingFile = JSON.parse(req.query.isDownloading)
+  console.log("isDownlodingFile: " + isDownlodingFile)
+  if (isDownlodingFile)
     fileDB.ORCHIDEI++
   writeDB(fileDB)
   res.send({
