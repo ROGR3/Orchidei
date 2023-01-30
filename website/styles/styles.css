@@ -250,4 +250,63 @@ header #right ul .selected {
 
 .pinkText {
   color: #B78AC1;
+}
+
+@media only screen and (max-width: 1600px) {
+  header #right {
+    width: 40% !important;
+    margin-right: 5% !important;
+  }
+}
+@media only screen and (max-width: 1300px) {
+  #container #right {
+    transform: scale(0.5) !important;
+    opacity: 0.5 !important;
+  }
+  #container #right #orchImage {
+    left: 0rem !important;
+    right: 2rem !important;
+    margin-top: 50rem !important;
+  }
+  #container #right #settingsImage {
+    margin-top: 30rem !important;
+    left: 10rem !important;
+  }
+  #container #right #shareImage {
+    margin-top: 30rem !important;
+    left: 20rem !important;
+  }
+  #downloads .card {
+    display: none;
+  }
+  #downloads .primary {
+    display: block;
+  }
+}
+@media only screen and (max-width: 800px) {
+  header #left {
+    display: none;
+  }
+  header #right {
+    width: 100% !important;
+    margin: 0 2rem !important;
+  }
+  #container #left {
+    width: 100% !important;
+    text-align: center;
+    padding-left: 0 !important;
+  }
+  #container #left #downloadDiv {
+    padding-top: 10rem !important;
+  }
+  #container #right {
+    transform: scale(0.8) !important;
+    position: absolute;
+    top: 10rem;
+    left: 5%;
+    opacity: 0.3 !important;
+  }
+  #docs .docContent {
+    width: 80% !important;
+  }
 }/*# sourceMappingURL=styles.css.map */
