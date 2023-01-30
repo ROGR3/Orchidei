@@ -26,5 +26,7 @@ window.onload = getDownloadStats
 async function getDownloadStats() {
   const response = await fetch("https://faithful-leggings-toad.cyclic.app/download-info?isDownloading=false").then(res => res.json())
   console.log(response)
+  document.getElementById("animationText").classList.add("bounceIn")
   document.getElementById("downloadCount").innerText = response.dowloads
 }
+
