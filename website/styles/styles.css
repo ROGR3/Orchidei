@@ -324,6 +324,7 @@ header #right ul .selected {
   body {
     width: 100vw;
     height: 100vh;
+    overflow: visible;
   }
   #container {
     width: 100% !important;
@@ -382,7 +383,7 @@ header #right ul .selected {
   #docs .docContent {
     width: 100% !important;
     padding: 1rem;
-    margin-top: 4rem;
+    margin-top: 5rem;
   }
   #docs .splitLine {
     display: none;
@@ -408,5 +409,12 @@ header #right ul .selected {
   #downloads .primary {
     transform: scale(1);
     height: 60%;
+  }
+  #downloads .primary .content .icon {
+    width: 80px;
+    margin: 2rem auto;
+  }
+  #downloads .primary .content .downloadBtn {
+    margin: 2rem auto;
   }
 }/*# sourceMappingURL=styles.css.map */
