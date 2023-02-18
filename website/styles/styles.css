@@ -363,7 +363,7 @@ header #right ul .selected {
     position: absolute;
     width: 30%;
     border-radius: 0.5rem;
-    margin-top: -70%;
+    margin-top: -50%;
   }
   #container #right-phone #settingsImage {
     transform: rotateZ(-30deg);
@@ -375,5 +375,12 @@ header #right ul .selected {
   }
   #docs .docContent {
     width: 80% !important;
+  }
+  #downloads {
+    top: 0rem;
+  }
+  #downloads .primary {
+    transform: scale(1);
+    height: 60%;
   }
 }/*# sourceMappingURL=styles.css.map */

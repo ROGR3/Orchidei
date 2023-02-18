@@ -423,7 +423,7 @@ header {
         position: absolute;
         width: 30%;
         border-radius: .5rem;
-        margin-top: -70%;
+        margin-top: -50%;
       }
 
       #settingsImage {
@@ -444,5 +444,13 @@ header {
     }
   }
 
+  #downloads {
+    top: 0rem;
+
+    .primary {
+      transform: scale(1);
+      height: 60%;
+    }
+  }
 
 }
