@@ -1,25 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-@-webkit-keyframes bounceIn {
-  0% {
-    transform: scale3d(0.3, 0.3, 0.3);
-  }
-  20% {
-    transform: scale3d(1.1, 1.1, 1.1);
-  }
-  40% {
-    transform: scale3d(0.9, 0.9, 0.9);
-  }
-  60% {
-    transform: scale3d(1.03, 1.03, 1.03);
-  }
-  80% {
-    transform: scale3d(0.97, 0.97, 0.97);
-  }
-  100% {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
-  }
-}
 @keyframes bounceIn {
   0% {
     transform: scale3d(0.3, 0.3, 0.3);
@@ -42,8 +21,7 @@
   }
 }
 .bounceIn {
-  -webkit-animation: bounceIn forwards 1.3s;
-          animation: bounceIn forwards 1.3s;
+  animation: bounceIn forwards 1.3s;
 }
 
 * {
@@ -109,7 +87,6 @@ header #right ul .selected {
   padding-top: 10rem;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
 #container #left h1 {
@@ -137,12 +114,14 @@ header #right ul .selected {
   color: #B78AC1;
   cursor: pointer;
 }
+#container #right-phone {
+  display: none;
+}
 #container #right {
   float: right;
   width: 50%;
 }
 #container #right .smallImg {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   height: 24rem;
@@ -153,7 +132,6 @@ header #right ul .selected {
 }
 #container #right #orchImage {
   width: 45rem;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   margin-top: 19rem;
@@ -222,7 +200,6 @@ header #right ul .selected {
 #downloads .card .content .downloadBtn {
   margin: 4rem auto;
   padding: 0.5rem 1.5rem;
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   border-radius: 5rem;
@@ -341,20 +318,60 @@ header #right ul .selected {
     width: 100% !important;
     margin: 0 2rem !important;
   }
+  body {
+    width: 100vw;
+    height: 100vh;
+  }
+  #container {
+    width: 100% !important;
+    height: 100% !important;
+  }
   #container #left {
     width: 100% !important;
     text-align: center;
     padding-left: 0 !important;
+    padding-top: 4rem !important;
+  }
+  #container #left h1 {
+    font-size: 80px !important;
+  }
+  #container #left p {
+    font-size: 20px !important;
   }
   #container #left #downloadDiv {
-    padding-top: 10rem !important;
+    position: relative;
+    z-index: 1;
+    padding-top: 2rem !important;
   }
   #container #right {
-    transform: scale(0.8) !important;
+    display: none;
+  }
+  #container #right-phone {
+    padding-top: 4.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #container #right-phone #orchImage {
+    width: 75%;
+    position: relative;
+    z-index: 1;
+  }
+  #container #right-phone .smallImg {
+    z-index: 0;
     position: absolute;
-    top: 10rem;
-    left: 5%;
-    opacity: 0.3 !important;
+    width: 30%;
+    border-radius: 0.5rem;
+    margin-top: -70%;
+  }
+  #container #right-phone #settingsImage {
+    transform: rotateZ(-30deg);
+    margin-left: -20%;
+  }
+  #container #right-phone #shareImage {
+    transform: rotateZ(30deg);
+    margin-left: 20%;
   }
   #docs .docContent {
     width: 80% !important;

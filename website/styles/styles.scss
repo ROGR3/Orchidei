@@ -112,6 +112,10 @@ header {
 
   }
 
+  #right-phone {
+    display: none;
+  }
+
   #right {
     float: right;
     width: 50%;
@@ -366,23 +370,71 @@ header {
     }
   }
 
+  body {
+    width: 100vw;
+    height: 100vh;
+  }
+
   #container {
+    width: 100% !important;
+    height: 100% !important;
+
     #left {
       width: 100% !important;
       text-align: center;
       padding-left: 0 !important;
+      padding-top: 4rem !important;
+
+      h1 {
+        font-size: 80px !important;
+      }
+
+      p {
+        font-size: 20px !important;
+
+      }
 
       #downloadDiv {
-        padding-top: 10rem !important;
+        position: relative;
+        z-index: 1;
+        padding-top: 2rem !important;
       }
     }
 
     #right {
-      transform: scale(.8) !important;
-      position: absolute;
-      top: 10rem;
-      left: 5%;
-      opacity: .3 !important;
+      display: none;
+    }
+
+    #right-phone {
+      padding-top: 4.5rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      #orchImage {
+        width: 75%;
+        position: relative;
+        z-index: 1;
+      }
+
+      .smallImg {
+        z-index: 0;
+        position: absolute;
+        width: 30%;
+        border-radius: .5rem;
+        margin-top: -70%;
+      }
+
+      #settingsImage {
+        transform: rotateZ(-30deg);
+        margin-left: -20%;
+      }
+
+      #shareImage {
+        transform: rotateZ(30deg);
+        margin-left: 20%;
+      }
     }
   }
 
