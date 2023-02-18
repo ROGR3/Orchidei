@@ -361,12 +361,16 @@ header {
 @media only screen and (max-width: 800px) {
   header {
     #left {
-      display: none;
+      display: none !important;
     }
 
     #right {
       width: 100% !important;
       margin: 0 2rem !important;
+    }
+
+    .mobile-hidden {
+      display: none;
     }
   }
 
@@ -439,8 +443,34 @@ header {
   }
 
   #docs {
+    top: 0;
+
     .docContent {
-      width: 80% !important;
+      width: 100% !important;
+      padding: 1rem;
+      margin-top: 4rem;
+    }
+
+    .splitLine {
+      display: none;
+    }
+
+    #navBar {
+      position: absolute;
+      top: 0;
+
+      ul {
+        display: grid;
+        grid-template-columns: auto auto auto;
+
+        li {
+          padding: 0.2rem 0.5rem;
+          text-align: center;
+        }
+      }
+
+      border-right: 0;
+      height: fit-content;
     }
   }
 
