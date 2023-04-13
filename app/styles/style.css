@@ -4,7 +4,6 @@
   box-sizing: border-box;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
 
@@ -12,7 +11,6 @@
   z-index: -1;
   position: fixed;
   width: 100%;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   min-height: 100%;
@@ -156,7 +154,6 @@ body {
 }
 .header .curPathDiv {
   justify-content: flex-end;
-  min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
   width: 30%;
@@ -228,7 +225,6 @@ body {
 }
 .menus .sideMenu {
   position: fixed;
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   height: 100%;
@@ -270,7 +266,6 @@ body {
   display: inline-block;
   padding: 5px;
   margin: 7px;
-  min-height: -webkit-fit-content;
   min-height: -moz-fit-content;
   min-height: fit-content;
   cursor: pointer;
@@ -296,10 +291,8 @@ body {
 }
 
 .popUpBox {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   position: fixed;
@@ -315,10 +308,8 @@ body {
 }
 
 .rightClickBox {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   position: fixed;
@@ -342,17 +333,6 @@ body {
   background-color: rgba(56, 46, 65, 0.712);
 }
 
-@-webkit-keyframes fadeIn {
-  from {
-    transform: translate3d(0, -100%, 0);
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @keyframes fadeIn {
   from {
     transform: translate3d(0, -100%, 0);
@@ -361,16 +341,6 @@ body {
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }
-}
-@-webkit-keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
   }
 }
 @keyframes fadeOut {
@@ -384,25 +354,17 @@ body {
   }
 }
 .fadeIn {
-  -webkit-animation-name: fadeIn;
-          animation-name: fadeIn;
-  -webkit-animation-duration: 0.3s;
-          animation-duration: 0.3s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease;
-          animation-timing-function: ease;
+  animation-name: fadeIn;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 
 .fadeOut {
-  -webkit-animation-name: fadeOut;
-          animation-name: fadeOut;
-  -webkit-animation-duration: 0.3s;
-          animation-duration: 0.3s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-timing-function: ease;
-          animation-timing-function: ease;
+  animation-name: fadeOut;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 
 .newInp {
@@ -445,7 +407,6 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   max-width: 90%;
@@ -518,6 +479,7 @@ body {
   color: black;
   padding: 10px 15px;
   border-radius: 1rem;
+  cursor: pointer;
 }
 
 #hashInput {
@@ -588,28 +550,16 @@ body {
   background: var(--clock-color);
   border-radius: 10px;
   transform-origin: center calc(100% - var(--clock-thickness) / 2);
-  -webkit-animation: spin infinite linear;
-          animation: spin infinite linear;
+  animation: spin infinite linear;
 }
 .clock-loader::before {
   height: var(--clock-minute-length);
-  -webkit-animation-duration: 2s;
-          animation-duration: 2s;
+  animation-duration: 2s;
 }
 .clock-loader::after {
   top: calc(var(--clock-radius) * 0.25 + var(--clock-hour-length));
   height: var(--clock-hour-length);
-  -webkit-animation-duration: 15s;
-          animation-duration: 15s;
-}
-
-@-webkit-keyframes gradient {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
+  animation-duration: 15s;
 }
 
 @keyframes gradient {
@@ -618,11 +568,6 @@ body {
   }
   100% {
     background-position: 100% 0;
-  }
-}
-@-webkit-keyframes spin {
-  to {
-    transform: rotate(1turn);
   }
 }
 @keyframes spin {
