@@ -10,7 +10,7 @@ function downloadWindows() {
   addToDownloads()
   var link = document.createElement("a");
   // link.download = name;
-  link.href = "https://github.com/Borecjeborec1/Orchidei/releases/download/v1.0.0/Orchidei_Setup-v1.0.0.exe";
+  link.href = "https://github.com/Borecjeborec1/Orchidei/releases/download/v1.0.1/orchidei.Setup.1.0.1.zip";
   link.click();
 }
 
